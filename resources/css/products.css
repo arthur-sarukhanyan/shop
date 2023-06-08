@@ -1,0 +1,24 @@
+#actions{
+    background: #fff;
+    margin-bottom: 10px;
+}
+
+#product-create-container{
+    margin-bottom: 20px;
+}
+
+.product-create{
+    padding: 15px 25px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.create-form-actions{
+    text-align: right;
+}
+
+.errors p{
+    color: red;
+}

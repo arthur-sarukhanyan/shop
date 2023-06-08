@@ -27,13 +27,13 @@ Route::prefix('auth')->group(function () {
 //    Route::post('me', [CustomerAuthController::class, 'me']);
 });
 
-Route::prefix('admin')->group(function () {
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AdminAuthController::class, 'logout']);
-    });
-
-    Route::post('login', [AdminAuthController::class, 'login']);
-});
+//Route::prefix('admin')->group(function () {
+//    Route::middleware('auth:sanctum')->group(function () {
+//        Route::post('logout', [AdminAuthController::class, 'logout']);
+//    });
+//
+//    Route::post('login', [AdminAuthController::class, 'login']);
+//});
 
 //Products
 Route::post('products', [ProductController::class, 'create']);

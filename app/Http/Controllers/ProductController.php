@@ -38,4 +38,16 @@ class ProductController extends Controller
         $list = $this->modelRepository->all($params);
         return new ListProductResource($list);
     }
+
+    public function viewList(ListProductRequest $request)
+    {
+        $params = $request->all();
+        $list = $this->modelRepository->all($params);
+        return view('admin.products.main', ['list' => $list]);
+    }
+
+    public function viewCreate()
+    {
+        return view('admin.products.create');
+    }
 }
