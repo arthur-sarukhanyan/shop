@@ -1,9 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerAuthController;
-use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,20 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     Route::post('login', [CustomerAuthController::class, 'login']);
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AdminAuthController::class, 'logout']);
+        Route::post('logout', [CustomerAuthController::class, 'logout']);
     });
-//    Route::post('logout', [CustomerAuthController::class, 'logout']);
-//    Route::post('refresh', [CustomerAuthController::class, 'refresh']);
-//    Route::post('me', [CustomerAuthController::class, 'me']);
 });
-
-//Route::prefix('admin')->group(function () {
-//    Route::middleware('auth:sanctum')->group(function () {
-//        Route::post('logout', [AdminAuthController::class, 'logout']);
-//    });
-//
-//    Route::post('login', [AdminAuthController::class, 'login']);
-//});
 
 //Products
 Route::post('products', [ProductController::class, 'create']);

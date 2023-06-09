@@ -12,6 +12,10 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 abstract class AuthController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return JsonResponse|RedirectResponse
+     */
     public function login(Request $request): JsonResponse|RedirectResponse
     {
         $request->validate([
@@ -63,13 +67,20 @@ abstract class AuthController extends Controller
         $currentToken = auth()->user()->currentAccessToken();
         $authEntityId = $currentToken->tokenable_id;
         $authEntityType = $currentToken->tokenable_type;
-        PersonalAccessToken::where(['tokenable_id' => $authEntityId, 'tokenable_type' => $authEntityType])
-            ->delete();
+        PersonalAccessToken::where([
+                'tokenable_id' => $authEntityId,
+                'tokenable_type' => $authEntityType
+            ])->delete();
+
 
         return response()->json([
             'success' => 'Logout success',
         ]);
     }
 
+    /**
+     * @param string $email
+     * @return Authenticatable|null
+     */
     abstract public function getAuthEntity(string $email): Authenticatable|null;
 }

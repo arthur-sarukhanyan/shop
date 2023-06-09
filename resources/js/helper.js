@@ -23,7 +23,7 @@ $.getFormData = function (form) {
         if (data[iterator] === undefined) {
             data[iterator] = {};
         }
-        data[iterator][key] = parts[1];
+        data[iterator][key] = decodeURI(parts[1]);
     }
 
     return data;

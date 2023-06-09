@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\AdminAuthController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +21,14 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminAuthController::class, 'login']);
 
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/', [ProductController::class, 'viewList']);
-        Route::get('products', [ProductController::class, 'viewList']);
+        Route::get('/', [ProductController::class, 'list']);
+        Route::get('products', [ProductController::class, 'list'])->name('products-list');
         Route::get('products/create', [ProductController::class, 'viewCreate'])->name('products-create');
         Route::post('products/create', [ProductController::class, 'create']);
+
+        Route::middleware(['super-admin'])->group(function () {
+            Route::get('users', [UserController::class, 'list'])->name('users-list');;
+            Route::get('users-create', [UserController::class, 'create'])->name('users-create');;
+        });
     });
 });

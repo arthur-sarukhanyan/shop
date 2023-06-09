@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Repositories\Interfaces\ProductInterface;
-use App\Repositories\ProductRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      * @var array
      */
     public $bindings = [
-        ProductInterface::class => ProductRepository::class,
+        //
     ];
 
     /**

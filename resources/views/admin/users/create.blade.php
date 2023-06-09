@@ -1,13 +1,11 @@
 @extends('admin/layout')
 
-@section('title', 'Create product')
+@section('title', 'Create user')
 
 @section('extra-scripts')
     <script>
-        var page = 'products-create';
+        var page = 'users-create';
     </script>
-
-    @vite('resources/js/products.create.js')
 @endsection
 
 @section('content')
