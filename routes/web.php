@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -17,18 +18,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->group(function () {
-    Route::get('login', [AdminAuthController::class, 'viewLogin'])->name('admin-login');
-    Route::post('login', [AdminAuthController::class, 'login']);
+    Route::controller(AdminAuthController::class)->group(function () {
+        Route::get('login', 'viewLogin')->name('admin-login');
+        Route::post('login', 'login');
+    });
 
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/', [ProductController::class, 'list']);
-        Route::get('products', [ProductController::class, 'list'])->name('products-list');
-        Route::get('products/create', [ProductController::class, 'viewCreate'])->name('products-create');
-        Route::post('products/create', [ProductController::class, 'create']);
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('/', 'list');
+            Route::get('products', 'list')->name('products-list');
+            Route::get('products/create', 'viewCreate')->name('products-create');
+            Route::post('products/create', 'create');
+        });
+
+        Route::controller(CategoryController::class)->group(function () {
+            Route::get('categories', 'list')->name('categories-list');
+            Route::get('categories/create', 'viewCreate')->name('categories-create');
+            Route::post('categories/create', 'create');
+        });
 
         Route::middleware(['super-admin'])->group(function () {
-            Route::get('users', [UserController::class, 'list'])->name('users-list');;
-            Route::get('users-create', [UserController::class, 'create'])->name('users-create');;
+            Route::controller(UserController::class)->group(function () {
+                Route::get('users', 'list')->name('users-list');;
+                Route::get('users-create', 'create')->name('users-create');;
+            });
         });
     });
 });

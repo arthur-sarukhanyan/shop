@@ -30,4 +30,21 @@ interface RepositoryInterface
      * @return bool
      */
     public function delete(int $id):bool;
+
+    /**
+     * @param int $id
+     * @param int $relationId
+     * @param string $relationName
+     * @param array $params
+     * @return Model|bool|null
+     */
+    public function attach(int $id, int $relationId, string $relationName, array $params = []): Model|bool|null;
+
+    /**
+     * @param int $id
+     * @param int $relationId
+     * @param string $relationName
+     * @return Model|bool|null
+     */
+    public function detach(int $id, int $relationId, string $relationName): Model|bool|null;
 }

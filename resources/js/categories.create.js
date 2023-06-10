@@ -1,11 +1,11 @@
 $(document).ready(function (){
     var counter = 0;
 
-    if (page === 'products-create') {
+    if (page === 'categories-create') {
         counter = addCreateForm(counter);
     }
 
-    $('#add-product-create-form').on('click', function () {
+    $('#add-category-create-form').on('click', function () {
         counter = addCreateForm(counter);
     });
 
@@ -20,46 +20,35 @@ $(document).ready(function (){
         --counter;
     });
 
-    $('body').on('change', '#create-products-form input[type="file"]', function (e) {
-        let files = $(this)[0].files;
-        if (files.length) {
-            $(this).parent().find('img')[0].src = window.URL.createObjectURL(files[0]);
-        }
-    });
-
-    $('#products-save').on('click', function () {
+    $('#categories-save').on('click', function () {
         submitCreateForm();
     });
 });
 
 let addCreateForm = function (counter) {
-    let container = `<div class="product-create create-form-${counter}">
+    let container = `<div class="category-create create-form-${counter}">
         <div class="create-form-actions">
             <button class="btn btn-danger remove-form" data-counter="${counter}">-</button>
         </div>
     </div>`;
     let fields = [
         `<div class="mb-3">
-            <img src="/images/no-image.jpg" alt="your image" />
-            <label for="image-${counter}" class="form-label">Image</label>
-            <input accept="image/*" type="file" id="image-${counter}" name="image-${counter}"/>
-        </div>`,
-        `<div class="mb-3">
             <label for="name-${counter}" class="form-label">Name</label>
             <input type="text" class="form-control" id="name-${counter}" name="name-${counter}">
         </div>`,
         `<div class="mb-3">
-            <label for="description-${counter}" class="form-label">Description</label>
-            <textarea class="form-control" id="description-${counter}" name="description-${counter}"></textarea>
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>`,
-        `<div class="mb-3">
-            <label for="price-${counter}" class="form-label">Price</label>
-            <input type="number" class="form-control" id="price-${counter}" name="price-${counter}">
+            <label for="parent_id-${counter}" class="form-label">Parent category</label>
+            <select class="form-select form-control" id="parent_id-${counter}" name="parent_id-${counter}">
+              <option selected disabled>Choose parent category</option>
+              ${list.map(function (item) {
+                  return '<option value="' + item.id + '">' + item.name + '</option>';
+              })}
+            </select>
+            <div class="form-text">We'll never share your email with anyone else.</div>
         </div>`,
     ];
 
-    let pointer = $('#create-products-form');
+    let pointer = $('#create-categories-form');
     pointer.append(container);
 
     for (let field of fields) {
@@ -70,14 +59,14 @@ let addCreateForm = function (counter) {
 }
 
 let submitCreateForm = function () {
-    let data = $.getFormData($('#create-products-form'));
+    let data = $.getFormData($('#create-categories-form'));
 
     $.ajax({
         type: 'POST',
-        url: '/admin/products/create',
-        data: {list:data},
+        url: '/admin/categories/create',
+        data: data,
         success: function (res) {
-            window.location.href = '/admin/products';
+            window.location.href = '/admin/categories';
         },
         error: function (err) {
             let messages = JSON.parse(err.responseText);

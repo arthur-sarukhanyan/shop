@@ -14,7 +14,7 @@
     <div class="col-md-9">
 
         <div id="product-create-container">
-            <form id="create-products-form">
+            <form id="create-products-form" enctype="multipart/form-data">
                 @csrf
                 {{--Form elements will be added dynamically by js--}}
             </form>

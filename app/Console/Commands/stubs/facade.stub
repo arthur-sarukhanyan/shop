@@ -1,0 +1,22 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\Facades\Facade;
+
+/**
+ * @method static list(array $params)
+ * @method static create(array $data): Model|Collection
+ *
+ * @see \App\Services\{{service}}
+ */
+class {{ class }} extends Facade
+{
+    /**
+     * @return string
+     */
+    public static function getFacadeAccessor(): string
+    {
+        return '{{service}}';
+    }
+}

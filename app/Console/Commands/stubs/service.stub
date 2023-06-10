@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Repositories\Interfaces\{{repositoryInterface}} as RepositoryInterface;
+use App\Services\Interfaces\{{serviceInterface}} as ServiceInterface;
+class {{ class }} extends BaseService implements ServiceInterface
+{
+    /**
+     * @param RepositoryInterface $modelRepository
+     */
+    public function __construct(RepositoryInterface $modelRepository)
+    {
+        parent::__construct($modelRepository);
+    }
+}
