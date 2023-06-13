@@ -5,6 +5,9 @@ namespace App\Repositories\Interfaces;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @see \App\Repositories\ModelRepository
+ */
 interface RepositoryInterface
 {
     /**
@@ -47,4 +50,9 @@ interface RepositoryInterface
      * @return Model|bool|null
      */
     public function detach(int $id, int $relationId, string $relationName): Model|bool|null;
+
+    /**
+     * @return string
+     */
+    public function getType(): string;
 }

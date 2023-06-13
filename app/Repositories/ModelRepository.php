@@ -94,4 +94,12 @@ class ModelRepository implements RepositoryInterface
         $model->$relationName()->detach($relationId);
         return $model;
     }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->model::class;
+    }
 }

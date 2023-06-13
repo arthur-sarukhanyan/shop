@@ -188,6 +188,7 @@ return [
         'UserFacade' => App\Facades\UserFacade::class,
         'ProductFacade' => App\Facades\ProductFacade::class,
         'CategoryFacade' => App\Facades\CategoryFacade::class,
+        'ImageFacade' => App\Facades\ImageFacade::class,
     ])->toArray(),
 
 ];

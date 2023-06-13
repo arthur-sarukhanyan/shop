@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Facades\ImageFacade;
 use App\Repositories\Interfaces\ProductInterface as RepositoryInterface;
 use App\Services\Interfaces\ProductInterface as ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -31,7 +32,10 @@ class ProductService extends BaseService implements ServiceInterface
         $list = new Collection();
 
         foreach ($data as $item) {
-            $list->push(parent::create($item));
+            $created = parent::create($item);
+
+            ImageFacade::attachImage($created->id, $this->getType(), $item['image']);
+            $list->push($created);
         }
 
         return $list;

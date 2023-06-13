@@ -10,4 +10,5 @@ class ImageRepository extends ModelRepository implements ImageInterface
     {
         parent::__construct(Image::class);
     }
+
 }

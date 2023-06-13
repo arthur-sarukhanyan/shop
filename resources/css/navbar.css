@@ -1,0 +1,19 @@
+#dropdownUser1 img{
+    width: 50px;
+    height: 50px;
+}
+
+.user-name{
+    text-align: center;
+    margin-right: 15px;
+}
+
+.logo-img{
+    max-height: 70px;
+}
+
+.navbar{
+    padding-top: 0;
+    padding-bottom: 0;
+    max-height: 60px;
+}

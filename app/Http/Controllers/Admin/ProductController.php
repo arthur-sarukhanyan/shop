@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Facades\CategoryFacade;
 use App\Facades\ProductFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
@@ -38,6 +39,7 @@ class ProductController extends Controller
      */
     public function viewCreate(): View
     {
-        return view('admin.products.create');
+        $listCategories = CategoryFacade::list([]);
+        return view('admin.products.create', ['listCategories' => $listCategories]);
     }
 }

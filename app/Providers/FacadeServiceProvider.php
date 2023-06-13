@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\CategoryService;
+use App\Services\ImageService;
 use App\Services\ProductService;
 use App\Services\UserService;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,9 @@ class FacadeServiceProvider extends ServiceProvider
             return app()->make(CategoryService::class);
         });
 
+        $this->app->bind('ImageService', function (Application $app) {
+            return app()->make(ImageService::class);
+        });
     }
 
     /**

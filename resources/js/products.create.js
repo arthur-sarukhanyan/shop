@@ -44,6 +44,7 @@ let addCreateForm = function (counter) {
             <label for="image-${counter}" class="form-label">Image</label>
             <input accept="image/*" type="file" id="image-${counter}" name="image-${counter}"/>
         </div>`,
+        createCategoriesSelect(counter),
         `<div class="mb-3">
             <label for="name-${counter}" class="form-label">Name</label>
             <input type="text" class="form-control" id="name-${counter}" name="name-${counter}">
@@ -66,6 +67,8 @@ let addCreateForm = function (counter) {
         $('.create-form-' + counter).append(field);
     }
 
+    $.makeMultiSelect($('#category_id-' + counter));
+
     return ++counter;
 }
 
@@ -75,7 +78,9 @@ let submitCreateForm = function () {
     $.ajax({
         type: 'POST',
         url: '/admin/products/create',
-        data: {list:data},
+        processData: false,
+        contentType: false,
+        data: data,
         success: function (res) {
             window.location.href = '/admin/products';
         },
@@ -95,4 +100,16 @@ let displayValidationErrors = function (messages) {
             container.append(`<p>${error}</p>`);
         }
     }
+}
+
+let createCategoriesSelect = function (counter) {
+    let options = $.sortSelectOptions(list, []);
+
+    return `<div class="mb-3">
+                <label for="category_id-${counter}" class="form-label">Category</label>
+                <select class="form-select form-control" id="category_id-${counter}" name="category_id-${counter}">
+                  <option selected disabled>Choose category</option>
+                  ${options}
+                </select>
+            </div>`;
 }

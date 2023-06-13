@@ -31,6 +31,8 @@ let addCreateForm = function (counter) {
             <button class="btn btn-danger remove-form" data-counter="${counter}">-</button>
         </div>
     </div>`;
+    let options = $.sortSelectOptions(list, []);
+
     let fields = [
         `<div class="mb-3">
             <label for="name-${counter}" class="form-label">Name</label>
@@ -40,9 +42,7 @@ let addCreateForm = function (counter) {
             <label for="parent_id-${counter}" class="form-label">Parent category</label>
             <select class="form-select form-control" id="parent_id-${counter}" name="parent_id-${counter}">
               <option selected disabled>Choose parent category</option>
-              ${list.map(function (item) {
-                  return '<option value="' + item.id + '">' + item.name + '</option>';
-              })}
+              ${options}
             </select>
             <div class="form-text">We'll never share your email with anyone else.</div>
         </div>`,

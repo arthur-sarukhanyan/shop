@@ -5,6 +5,7 @@
 @section('extra-scripts')
     <script>
         var page = 'products-create';
+        var list = @json($listCategories);
     </script>
 
     @vite('resources/js/products.create.js')

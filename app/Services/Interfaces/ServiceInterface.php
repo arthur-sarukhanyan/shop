@@ -5,6 +5,9 @@ namespace App\Services\Interfaces;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @see \App\Services\BaseService
+ */
 interface ServiceInterface
 {
     /**
@@ -36,4 +39,17 @@ interface ServiceInterface
      * @return bool
      */
     public function delete(int $id):bool;
+
+    /**
+     * @return string
+     */
+    public function getType(): string;
+
+    /**
+     * @param int $modelId
+     * @param int $relatedModelId
+     * @param string $relation
+     * @return bool|Model
+     */
+    public function attach(int $modelId, int $relatedModelId, string $relation): bool|Model;
 }

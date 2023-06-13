@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\ImageRepository;
 use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\ImageInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Interfaces\UserInterface;
 use App\Repositories\ProductRepository;
@@ -16,6 +18,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserInterface::class => UserRepository::class,
         ProductInterface::class => ProductRepository::class,
         CategoryInterface::class => CategoryRepository::class,
+        ImageInterface::class => ImageRepository::class,
     ];
 
     /**

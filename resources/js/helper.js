@@ -5,6 +5,9 @@ $.ajaxSetup({
     }
 });
 
+/**
+ *  Creating post data from objects/file-objects
+ **/
 $.getFormData = function (form) {
     let serialized = form.serialize();
     let items = serialized.split('&');
@@ -61,4 +64,179 @@ let getNameKey = function (inputName) {
     let key = inputName.replace('-' + iterator, '');
 
     return {iterator: iterator, key: key};
+}
+
+/**
+ *  Generating nested options for select
+ **/
+$.sortedSelectOptions = null;
+
+$.sortSelectOptions = function (list, sorted = []) {
+    if ($.sortedSelectOptions) {
+        return $.sortedSelectOptions;
+    }
+
+    if (!sorted.length) {
+        for (let item of list) {
+            if (item.parent === null) {
+                sorted.push(item);
+            }
+        }
+
+        updateArrays(list, sorted);
+    }
+
+    for (let item of list) {
+        for (let i = 0; i < sorted.length; i++) {
+            if (sorted[i].id === item.parent_id) {
+                sorted = addToArray(sorted, item, i);
+            }
+        }
+    }
+
+    updateArrays(list, sorted);
+
+    $.sortedSelectOptions = getSelectOptions(sorted);
+    return $.sortedSelectOptions;
+}
+
+let updateArrays = function (list, sorted) {
+    for (let item of sorted) {
+        for (let index in list) {
+            if (item.id === list[index].id) {
+                list.splice(index, 1);
+            }
+        }
+    }
+
+    return list;
+}
+
+let addToArray = function (list, item, index) {
+    if (list.length < index + 1) {
+        list.push(item);
+        return list;
+    }
+
+    let firstChunk = list.slice(0, index + 1);
+    let secondChunk = list.slice(index + 1, list.length);
+
+    firstChunk.push(item);
+
+    return firstChunk.concat(secondChunk);
+}
+
+let getSelectOptions = function (list, result = '', number = 0, parent = null, itemParentId = null) {
+    if (!list.length) {
+        return result;
+    }
+
+    let item = list[0];
+
+    if (item.parent === null) {
+        result += `<option value="${item.id}" class="fw-bold">${item.name}</option>`;
+        number = 0;
+        parent = item.id;
+    } else {
+        if (item.parent_id === parent) {
+            ++number;
+        } else {
+            if (itemParentId !== item.parent_id) {
+                number--;
+            }
+        }
+
+        parent = item.id;
+        result += `<option value="${item.id}">${getOptionSpaces(number)} ${item.name}</option>`;
+    }
+
+    list.shift();
+    return getSelectOptions(list, result, number, parent, item.parent_id);
+}
+
+let getOptionSpaces = function (count) {
+    let res = '';
+    while (count > 0) {
+        res += '\u00a0\u00a0';
+        count--;
+    }
+
+    return res;
+}
+
+/**
+ *  Create multi select from simple select
+ **/
+$.makeMultiSelect = function (element) {
+    var values = [];
+    let valueElement = `<option class="multiple-default" style="display: none" value=""></option>>`;
+
+    element.on('change', function (e) {
+        values.push(getSelectedCheckboxValues(element));
+
+        let existingValueElement = element.find('.multiple-default');
+        if (existingValueElement) {
+            existingValueElement.remove();
+        }
+
+        element.append(valueElement);
+
+        existingValueElement = element.find('.multiple-default');
+        getMultiSelectDisplay(values, existingValueElement);
+        existingValueElement.find('.option-removable').on('click', function (e) {
+            $(this).remove();
+        });
+
+        let layer = createSelectLayer(element);
+        layer.html(existingValueElement.html());
+
+        layer.find('.option-removable').on('click', function () {
+            let value = $(this).attr('data-value');
+            $(this).remove();
+
+            let firstOption = layer.find('.option-removable').first();
+            let text = firstOption.text().replace(', ', '');
+            firstOption.text(text);
+
+            values = values.filter(function (item) {
+                return item.value !== value;
+            });
+
+            if (!layer.html().length) {
+                layer.remove();
+            }
+        });
+
+        // existingValueElement.text(text);
+    });
+}
+
+let getSelectedCheckboxValues = function (selectElement) {
+    let selected = selectElement.find(':selected');
+    return {inner: selected.text(), value: selected.val()};
+}
+
+let getMultiSelectDisplay = function (data, element) {
+    data.map(function (item, index) {
+        let text = ', ' + item.inner;
+        if (index === 0) {
+            text = item.inner;
+        }
+
+        text = text.replace(/\s+/g,' ').trim();
+        element.append(`<span class="option-removable" data-value="${item.value}">${text}</span>`);
+    });
+}
+
+let createSelectLayer = function (element) {
+    let layerElement = element.parent().find('.multi-select-layer');
+    if (!layerElement.length) {
+        element.parent().addClass('position-relative');
+        element.parent().append(`<div class="position-absolute multi-select-layer" style="top: 0px; left: 100px;"></div>`);
+        layerElement = element.parent().find('.multi-select-layer');
+
+        layerElement.css({'height':(element.height()+'px'), 'width':(element.width()+'px')});
+    }
+
+    return layerElement;
 }

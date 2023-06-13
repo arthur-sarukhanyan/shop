@@ -1,0 +1,12 @@
+.sidebar{
+    width: 270px;
+    padding-left: 20px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.sidebar ul li a{
+    color: #fff;
+}
