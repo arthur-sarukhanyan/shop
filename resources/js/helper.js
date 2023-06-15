@@ -19,6 +19,10 @@ $.getFormData = function (form) {
             continue;
         }
 
+        if(parts[0].indexOf('category_id') !== -1) {
+            parts[1] = JSON.stringify(parts[1].split('%2C'));
+        }
+
         let iteratorParts = getNameKey(parts[0]);
         let iterator = iteratorParts.iterator;
         let key = iteratorParts.key;
@@ -172,7 +176,23 @@ $.makeMultiSelect = function (element) {
     let valueElement = `<option class="multiple-default" style="display: none" value=""></option>>`;
 
     element.on('change', function (e) {
+        let exist = false;
+
+        let valueToAdd = getSelectedCheckboxValues(element);
+
+        values.map(function (item) {
+           if (item.value === valueToAdd.value) {
+               exist = true;
+           }
+        });
+
+        if (exist) {
+            return;
+        }
+
         values.push(getSelectedCheckboxValues(element));
+
+        let valueContainElement = element.parent().find('.category-value');
 
         let existingValueElement = element.find('.multiple-default');
         if (existingValueElement) {
@@ -198,14 +218,23 @@ $.makeMultiSelect = function (element) {
             let text = firstOption.text().replace(', ', '');
             firstOption.text(text);
 
+            existingValueElement.find('span').each(function () {
+                if ($(this).attr('data-value') === value) {
+                    $(this).remove();
+                }
+            });
+
             values = values.filter(function (item) {
                 return item.value !== value;
             });
+            setSelectedOptionValues(valueContainElement, values);
 
             if (!layer.html().length) {
                 layer.remove();
             }
         });
+
+        setSelectedOptionValues(valueContainElement, values);
 
         // existingValueElement.text(text);
     });
@@ -239,4 +268,13 @@ let createSelectLayer = function (element) {
     }
 
     return layerElement;
+}
+
+let setSelectedOptionValues = function (element, values) {
+    let selectedValues = [];
+    values.map(function (item) {
+        selectedValues.push(item.value);
+    });
+
+    element.val(selectedValues);
 }

@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Relations\BelongsToManyByPath;
+use App\Models\Relations\HasCustomRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCustomRelationships;
 
     /**
      * The table associated with the model.
@@ -49,5 +52,21 @@ class Category extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'products_categories');
+    }
+
+    /**
+     * @return BelongsToManyByPath
+     */
+    public function allProducts(): BelongsToManyByPath
+    {
+        return $this->belongsToManyByPath(Product::class, 'products_categories', 'categories');
     }
 }

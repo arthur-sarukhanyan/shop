@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\ListCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
+use App\Models\Category;
 use Illuminate\Contracts\View\View;
 
 class CategoryController extends Controller
@@ -29,7 +30,16 @@ class CategoryController extends Controller
     public function list(ListCategoryRequest $request): View
     {
         $params = $request->all();
-        $list = CategoryFacade::list($params);
+        $params = [
+            'filters' => [
+                [
+                    'field' => 'name',
+                    'value' => 'Films'
+                ]
+            ]
+        ];
+//        $list = Category::where('name', 'Fantasy')->with('products')->get();
+        $list = Category::where('name', 'Books')->with('allProducts')->get();
         return view('admin.categories.main', ['list' => $list]);
     }
 

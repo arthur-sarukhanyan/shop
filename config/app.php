@@ -189,6 +189,7 @@ return [
         'ProductFacade' => App\Facades\ProductFacade::class,
         'CategoryFacade' => App\Facades\CategoryFacade::class,
         'ImageFacade' => App\Facades\ImageFacade::class,
+        'ProductCategoryFacade' => App\Facades\ProductCategoryFacade::class,
     ])->toArray(),
 
 ];

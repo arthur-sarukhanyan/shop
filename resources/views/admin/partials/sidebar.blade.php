@@ -1,4 +1,4 @@
-<div class="col-auto col-md-2 px-0">
+<div class="col-auto col-md-2 px-0 min-vh-100">
     <div class="d-flex flex-column align-items-center align-items-sm-start pt-2 text-white bg-dark sidebar">
         <ul class="nav flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
             @if(auth()->user()->level === 1)

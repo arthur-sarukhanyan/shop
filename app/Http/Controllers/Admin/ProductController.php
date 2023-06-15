@@ -30,7 +30,23 @@ class ProductController extends Controller
     public function list(ListProductRequest $request): View
     {
         $params = $request->all();
-        $list = ProductFacade::list($params);
+
+        $params = [
+            'filters' => [
+                [
+                    'field' => 'name',
+                    'value' => 'test'
+                ],
+                [
+                    'field' => 'allCategories.name',
+                    'value' => 'Comedy'
+                ]
+            ]
+        ];
+
+        $list = ProductFacade::listFiltered($params);
+//        $list = ProductFacade::list($params);
+
         return view('admin.products.main', ['list' => $list]);
     }
 

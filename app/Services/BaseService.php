@@ -39,14 +39,25 @@ class BaseService implements ServiceInterface
         return $list;
     }
 
-    public function update(array $data): Model
+    /**
+     * @param int $id
+     * @param array $data
+     * @return Model|bool
+     */
+    public function update(int $id, array $data): Model|bool
     {
-        // TODO: Implement update() method.
+        $updated = $this->modelRepository->update($id, $data);
+        return $updated;
     }
 
-    public function one(int $id): Model
+    /**
+     * @param int $id
+     * @return Model|null
+     */
+    public function find(int $id): Model|null
     {
-        // TODO: Implement one() method.
+        $item = $this->modelRepository->find($id);
+        return $item;
     }
 
     public function delete(int $id): bool
@@ -71,5 +82,16 @@ class BaseService implements ServiceInterface
     public function attach(int $modelId, int $relatedModelId, string $relation): bool|Model
     {
         return $this->modelRepository->attach($modelId, $relatedModelId, $relation);
+    }
+
+    /**
+     * @param int $modelId
+     * @param array $relatedModelIds
+     * @param string $relation
+     * @return bool|Model
+     */
+    public function sync(int $modelId, array $relatedModelIds, string $relation): bool|Model
+    {
+        return $this->modelRepository->sync($modelId, $relatedModelIds, $relation);
     }
 }

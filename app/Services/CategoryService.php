@@ -36,4 +36,9 @@ class CategoryService extends BaseService implements ServiceInterface
 
         return $list;
     }
+
+    public function listFiltered(array $params)
+    {
+        return $this->modelRepository->listFiltered($params);
+    }
 }

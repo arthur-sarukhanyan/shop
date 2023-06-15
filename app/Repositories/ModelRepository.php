@@ -2,12 +2,15 @@
 
 namespace App\Repositories;
 
+use App\Helpers\ModelFilterHelper;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class ModelRepository implements RepositoryInterface
 {
+    use ModelFilterHelper;
+
     protected Model $model;
 
     public function __construct($model)
@@ -36,6 +39,32 @@ class ModelRepository implements RepositoryInterface
     }
 
     /**
+     * @param string $column
+     * @param string $value
+     * @return Collection
+     */
+    public function findBy(string $column, string $value): Collection
+    {
+        $collection = $this->model->where($column, $value)->get();
+        return $collection;
+    }
+
+    /**
+     * @param array $conditions
+     * @return Collection
+     */
+    public function findByConditions(array $conditions): Collection
+    {
+        $query = $this->model->newQuery();
+        foreach ($conditions as $condition) {
+            $query->where($condition->column, $condition->value);
+        }
+
+        $collection = $query->get();
+        return $collection;
+    }
+
+    /**
      * @param array $params
      * @return Model
      */
@@ -43,6 +72,22 @@ class ModelRepository implements RepositoryInterface
     {
         $model = $this->model->create($params);
         return $model;
+    }
+
+    /**
+     * @param int $id
+     * @param array $params
+     * @return Model|bool
+     */
+    public function update(int $id, array $params): Model|bool
+    {
+        $model = $this->find($id);
+        if (!$model) {
+            return false;
+        }
+
+        $updated = $model->update($params);
+        return $updated;
     }
 
     /**
@@ -96,10 +141,42 @@ class ModelRepository implements RepositoryInterface
     }
 
     /**
+     * @param int $id
+     * @param array $relationIds
+     * @param string $relationName
+     * @return Model|bool|null
+     */
+    public function sync(int $id, array $relationIds, string $relationName): Model|bool|null
+    {
+        $model = $this->find($id);
+        if (!$model) {
+            return false;
+        }
+
+        $model->$relationName()->sync($relationIds);
+        return $model;
+    }
+
+    /**
      * @return string
      */
     public function getType(): string
     {
         return $this->model::class;
+    }
+
+    /**
+     * Return result based on params
+     *
+     * @param array $params
+     * @return Collection
+     */
+    public function listFiltered(array $params): Collection
+    {
+        $query = $this->model->newQuery();
+
+        $query = $this->generate($query, $params);
+
+        return $query->get();
     }
 }

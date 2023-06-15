@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\CategorySyncEvent;
 use App\Facades\ImageFacade;
 use App\Repositories\Interfaces\ProductInterface as RepositoryInterface;
 use App\Services\Interfaces\ProductInterface as ServiceInterface;
@@ -33,11 +34,21 @@ class ProductService extends BaseService implements ServiceInterface
 
         foreach ($data as $item) {
             $created = parent::create($item);
+            if (isset($item['category_id'])) {
+                $categoryIds = json_decode($item['category_id'], true);
+                parent::sync($created->id, $categoryIds, 'categories');
+                CategorySyncEvent::dispatch($created);
+            }
 
             ImageFacade::attachImage($created->id, $this->getType(), $item['image']);
             $list->push($created);
         }
 
         return $list;
+    }
+
+    public function listFiltered(array $params)
+    {
+        return $this->modelRepository->listFiltered($params);
     }
 }

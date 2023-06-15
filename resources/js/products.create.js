@@ -107,9 +107,10 @@ let createCategoriesSelect = function (counter) {
 
     return `<div class="mb-3">
                 <label for="category_id-${counter}" class="form-label">Category</label>
-                <select class="form-select form-control" id="category_id-${counter}" name="category_id-${counter}">
+                <select class="form-select form-control" id="category_id-${counter}">
                   <option selected disabled>Choose category</option>
                   ${options}
                 </select>
+                <input style="display: none" type="text" class="form-control category-value" name="category_id-${counter}">
             </div>`;
 }

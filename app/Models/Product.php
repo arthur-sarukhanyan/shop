@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Relations\BelongsToManyByPath;
+use App\Models\Relations\HasCustomRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCustomRelationships;
 
     /**
      * The table associated with the model.
@@ -16,6 +19,10 @@ class Product extends Model
      * @var string
      */
     protected $table = 'products';
+
+    public $pathTable = 'categories';
+
+    public const ALIAS_RELATIONS = ['allCategories'];
 
     /**
      * The attributes that are mass assignable.
@@ -38,5 +45,15 @@ class Product extends Model
     public function image(): HasOne
     {
         return $this->hasOne(Image::class, 'item_id', 'id');
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'products_categories');
+    }
+
+    public function allCategories(): BelongsToManyByPath
+    {
+        return $this->belongsToManyByPath(Category::class, 'products_categories', $this->pathTable);
     }
 }

@@ -6,8 +6,10 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\Interfaces\CategoryInterface;
 use App\Repositories\Interfaces\ImageInterface;
+use App\Repositories\Interfaces\ProductCategoryInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Interfaces\UserInterface;
+use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -19,6 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
         ProductInterface::class => ProductRepository::class,
         CategoryInterface::class => CategoryRepository::class,
         ImageInterface::class => ImageRepository::class,
+        ProductCategoryInterface::class => ProductCategoryRepository::class,
     ];
 
     /**

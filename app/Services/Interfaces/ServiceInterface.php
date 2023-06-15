@@ -23,16 +23,17 @@ interface ServiceInterface
     public function list(array $params = []):Collection;
 
     /**
+     * @param int $id
      * @param array $data
-     * @return Model
+     * @return Model|bool
      */
-    public function update(array $data):Model;
+    public function update(int $id, array $data): Model|bool;
 
     /**
      * @param int $id
-     * @return Model
+     * @return Model|null
      */
-    public function one(int $id):Model;
+    public function find(int $id):Model|null;
 
     /**
      * @param int $id
@@ -52,4 +53,12 @@ interface ServiceInterface
      * @return bool|Model
      */
     public function attach(int $modelId, int $relatedModelId, string $relation): bool|Model;
+
+    /**
+     * @param int $modelId
+     * @param array $relatedModelIds
+     * @param string $relation
+     * @return bool|Model
+     */
+    public function sync(int $modelId, array $relatedModelIds, string $relation): bool|Model;
 }

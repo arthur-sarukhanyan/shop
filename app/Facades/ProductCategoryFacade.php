@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static list(array $params)
  * @method static create(array $data): Model|Collection
- * @method static find(int $id): Model|null
+ * @method static setCategoryPath(int $modelId): void
  *
- * @see \App\Services\CategoryService
+ * @see \App\Services\ProductCategoryService
  */
-class CategoryFacade extends Facade
+class ProductCategoryFacade extends Facade
 {
     /**
      * @return string
      */
     public static function getFacadeAccessor(): string
     {
-        return 'CategoryService';
+        return 'ProductCategoryService';
     }
 }
