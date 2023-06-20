@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\ProductInterface as RepositoryInterface;
 use App\Services\Interfaces\ProductInterface as ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductService extends BaseService implements ServiceInterface
 {
@@ -19,6 +20,10 @@ class ProductService extends BaseService implements ServiceInterface
         parent::__construct($modelRepository);
     }
 
+    /**
+     * @param array $data
+     * @return Model|Collection
+     */
     public function create(array $data): Model|Collection
     {
         if (isset($data['list'])) {
@@ -28,6 +33,10 @@ class ProductService extends BaseService implements ServiceInterface
         return parent::create($data);
     }
 
+    /**
+     * @param array $data
+     * @return Collection
+     */
     public function createMultiple(array $data): Collection
     {
         $list = new Collection();
@@ -47,8 +56,12 @@ class ProductService extends BaseService implements ServiceInterface
         return $list;
     }
 
-    public function listFiltered(array $params)
+    /**
+     * @param array $params
+     * @return Collection
+     */
+    public function list(array $params = []): Collection
     {
-        return $this->modelRepository->listFiltered($params);
+        return parent::listFiltered($params);
     }
 }

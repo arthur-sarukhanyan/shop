@@ -29,6 +29,8 @@ Route::prefix('admin')->group(function () {
             Route::get('products', 'list')->name('products-list');
             Route::get('products/create', 'viewCreate')->name('products-create');
             Route::post('products/create', 'create');
+            Route::get('products/update/{id}', 'viewUpdate')->name('products-update');
+            Route::post('products/update/{id}', 'update');
         });
 
         Route::controller(CategoryController::class)->group(function () {

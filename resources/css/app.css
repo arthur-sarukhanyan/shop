@@ -9,20 +9,22 @@
     padding-bottom: 5px;
 }
 
-span.actions{
+a.actions{
     cursor: pointer;
 }
 
-span.actions:hover{
+a.actions:hover{
     opacity: 0.8;
 }
 
-span.edit{
+a.edit{
     color: #0d6efd;
+    text-decoration: none;
 }
 
-span.delete{
+a.delete{
     color: #dc3545;
+    text-decoration: none;
 }
 
 .option-removable{
@@ -32,4 +34,8 @@ span.delete{
 
 .option-removable:hover{
     color: #dc3545;
+}
+
+.preview-image{
+    max-width: 140px;
 }

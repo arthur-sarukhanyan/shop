@@ -30,16 +30,7 @@ class CategoryController extends Controller
     public function list(ListCategoryRequest $request): View
     {
         $params = $request->all();
-        $params = [
-            'filters' => [
-                [
-                    'field' => 'name',
-                    'value' => 'Films'
-                ]
-            ]
-        ];
-//        $list = Category::where('name', 'Fantasy')->with('products')->get();
-        $list = Category::where('name', 'Books')->with('allProducts')->get();
+        $list = CategoryFacade::listFiltered($params);
         return view('admin.categories.main', ['list' => $list]);
     }
 

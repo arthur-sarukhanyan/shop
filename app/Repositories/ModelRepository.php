@@ -3,13 +3,14 @@
 namespace App\Repositories;
 
 use App\Helpers\ModelFilterHelper;
+use App\Helpers\PaginationHelper;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class ModelRepository implements RepositoryInterface
 {
-    use ModelFilterHelper;
+    use ModelFilterHelper, PaginationHelper;
 
     protected Model $model;
 
@@ -29,12 +30,22 @@ class ModelRepository implements RepositoryInterface
     }
 
     /**
+     * @return int
+     */
+    public function count(): int
+    {
+        $count = $this->model->count();
+        return $count;
+    }
+
+    /**
      * @param int $id
+     * @param array $with
      * @return Model|null
      */
-    public function find(int $id): Model|null
+    public function find(int $id, array $with = []): Model|null
     {
-        $model = $this->model->where('id', $id)->first();
+        $model = $this->model->where('id', $id)->with($with)->first();
         return $model;
     }
 
@@ -86,7 +97,10 @@ class ModelRepository implements RepositoryInterface
             return false;
         }
 
-        $updated = $model->update($params);
+        $updated = tap($model, function ($model) use ($params) {
+            $model->update($params);
+        });
+
         return $updated;
     }
 
@@ -174,9 +188,40 @@ class ModelRepository implements RepositoryInterface
     public function listFiltered(array $params): Collection
     {
         $query = $this->model->newQuery();
-
         $query = $this->generate($query, $params);
 
         return $query->get();
+    }
+
+    /**
+     * Return count based on params
+     *
+     * @param array $params
+     * @return int
+     */
+    public function countFiltered(array $params): int
+    {
+        $query = $this->model->newQuery();
+        $query = $this->generate($query, $params, true);
+
+        return $query->count();
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getPagination(array $params): array
+    {
+        $params = $this->updateParams($params);
+
+        if ($this->needsFilteredCount($params)) {
+            $count = $this->countFiltered($params);
+        } else {
+            $count = $this->count();
+        }
+
+        $pagination = $this->createPagination($params, $count);
+        return $pagination;
     }
 }

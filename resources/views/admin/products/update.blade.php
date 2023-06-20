@@ -1,26 +1,25 @@
 @extends('admin/layout')
 
-@section('title', 'Create product')
+@section('title', 'Edit product')
 
 @section('extra-scripts')
     <script>
-        var page = 'products-create';
+        var page = 'products-edit';
         var list = @json($listCategories);
+        var item = @json($item);
     </script>
 
-    @vite('resources/js/products/create.js')
-
+    @vite('resources/js/products/update.js')
 @endsection
 
 @section('content')
     <div class="col-md-9">
 
         <div id="product-create-container">
-            <form id="create-products-form" enctype="multipart/form-data">
+            <form id="update-product-form" enctype="multipart/form-data">
                 @csrf
                 {{--Form elements will be added dynamically by js--}}
             </form>
-
         </div>
 
         <div class="errors">
@@ -28,8 +27,7 @@
         </div>
 
         <div id="actions">
-            <button class="btn btn-primary" id="add-product-create-form">+</button>
-            <button class="btn btn-success" id="products-save">Save All</button>
+            <button class="btn btn-success" id="product-save">Save</button>
         </div>
     </div>
 @endsection

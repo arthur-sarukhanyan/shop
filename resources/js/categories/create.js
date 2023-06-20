@@ -31,21 +31,10 @@ let addCreateForm = function (counter) {
             <button class="btn btn-danger remove-form" data-counter="${counter}">-</button>
         </div>
     </div>`;
-    let options = $.sortSelectOptions(list, []);
 
     let fields = [
-        `<div class="mb-3">
-            <label for="name-${counter}" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name-${counter}" name="name-${counter}">
-        </div>`,
-        `<div class="mb-3">
-            <label for="parent_id-${counter}" class="form-label">Parent category</label>
-            <select class="form-select form-control" id="parent_id-${counter}" name="parent_id-${counter}">
-              <option selected disabled>Choose parent category</option>
-              ${options}
-            </select>
-            <div class="form-text">We'll never share your email with anyone else.</div>
-        </div>`,
+        $.createFormElement('text', `name-${counter}`, 'Name'),
+        $.createFormElement('categoriesSelect', `parent_id-${counter}`, 'Parent category', list),
     ];
 
     let pointer = $('#create-categories-form');
@@ -70,18 +59,7 @@ let submitCreateForm = function () {
         },
         error: function (err) {
             let messages = JSON.parse(err.responseText);
-            displayValidationErrors(messages.errors);
+            $.displayValidationErrors(messages.errors);
         }
     });
-}
-
-let displayValidationErrors = function (messages) {
-    let container = $('.errors');
-    container.empty();
-
-    for (let key in messages) {
-        for (let error of messages[key]) {
-            container.append(`<p>${error}</p>`);
-        }
-    }
 }

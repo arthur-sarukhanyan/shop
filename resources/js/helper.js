@@ -13,6 +13,8 @@ $.getFormData = function (form) {
     let items = serialized.split('&');
 
     let data = [];
+    let multiple = true;
+
     for (let item of items) {
         let parts = item.split('=');
         if (parts[0] === '_token') {
@@ -27,13 +29,22 @@ $.getFormData = function (form) {
         let iterator = iteratorParts.iterator;
         let key = iteratorParts.key;
 
-        if (data[iterator] === undefined) {
-            data[iterator] = {};
+        if (iterator !== key) {
+            if (data[iterator] === undefined) {
+                data[iterator] = {};
+            }
+            data[iterator][key] = decodeURI(parts[1]);
+        } else {
+            multiple = false;
+            data[key] = decodeURI(parts[1]);
         }
-        data[iterator][key] = decodeURI(parts[1]);
     }
 
-    return prepareData(form, data);
+    if (multiple) {
+        return prepareData(form, data);
+    } else {
+        return prepareSingleData(form, data);
+    }
 }
 
 let prepareData = function (form, data) {
@@ -44,11 +55,16 @@ let prepareData = function (form, data) {
     form.find(':input[type="file"]').each(function() {
         let name = $(this)[0].name;
         let file = $(this)[0].files[0];
-
-        let iteratorParts = getNameKey(name);
-        let iterator = iteratorParts.iterator;
-        let key = iteratorParts.key;
-        data[iterator][key] = file;
+        if (file) {
+            let iteratorParts = getNameKey(name);
+            let iterator = iteratorParts.iterator;
+            let key = iteratorParts.key;
+            if (iterator !== key) {
+                data[iterator][key] = file;
+            } else {
+                data[key] = file;
+            }
+        }
     });
 
     let formData = new FormData();
@@ -57,6 +73,30 @@ let prepareData = function (form, data) {
             let name = 'list[' + index + '][' + key + ']';
             formData.append(name, data[index][key]);
         }
+    }
+
+    return formData;
+}
+
+let prepareSingleData = function (form, data) {
+    if (form.find(':input[type="file"]').length === 0) {
+        return data;
+    }
+
+    let fileInput = form.find(':input[type="file"]');
+
+    let name = fileInput[0].name;
+    let file = fileInput[0].files[0];
+    if (file) {
+        let iteratorParts = getNameKey(name);
+        let key = iteratorParts.key;
+        data[key] = file;
+    }
+
+    let formData = new FormData();
+
+    for (let key in data) {
+        formData.append(key, data[key]);
     }
 
     return formData;
@@ -79,6 +119,11 @@ $.sortSelectOptions = function (list, sorted = []) {
     if ($.sortedSelectOptions) {
         return $.sortedSelectOptions;
     }
+    console.log(sorted, list);
+    if (!list.length) {
+        $.sortedSelectOptions = getSelectOptions(sorted);
+        return $.sortedSelectOptions;
+    }
 
     if (!sorted.length) {
         for (let item of list) {
@@ -87,7 +132,7 @@ $.sortSelectOptions = function (list, sorted = []) {
             }
         }
 
-        updateArrays(list, sorted);
+        list = updateArrays(list, sorted);
     }
 
     for (let item of list) {
@@ -98,10 +143,9 @@ $.sortSelectOptions = function (list, sorted = []) {
         }
     }
 
-    updateArrays(list, sorted);
+    list = updateArrays(list, sorted);
 
-    $.sortedSelectOptions = getSelectOptions(sorted);
-    return $.sortedSelectOptions;
+    return $.sortSelectOptions(list, sorted);
 }
 
 let updateArrays = function (list, sorted) {
@@ -171,13 +215,12 @@ let getOptionSpaces = function (count) {
 /**
  *  Create multi select from simple select
  **/
-$.makeMultiSelect = function (element) {
-    var values = [];
+$.makeMultiSelect = function (element, data = []) {
+    var values = data;
     let valueElement = `<option class="multiple-default" style="display: none" value=""></option>>`;
 
     element.on('change', function (e) {
         let exist = false;
-
         let valueToAdd = getSelectedCheckboxValues(element);
 
         values.map(function (item) {
@@ -199,7 +242,9 @@ $.makeMultiSelect = function (element) {
             existingValueElement.remove();
         }
 
-        element.append(valueElement);
+        if (!element.find('.multiple-default').length){
+            element.append(valueElement);
+        }
 
         existingValueElement = element.find('.multiple-default');
         getMultiSelectDisplay(values, existingValueElement);
@@ -240,6 +285,15 @@ $.makeMultiSelect = function (element) {
     });
 }
 
+$.setMultiSelectValues = function (element, values) {
+    element.append(`<option class="multiple-default" style="display: none" value=""></option>>`);
+    let existingValueElement = element.find('.multiple-default');
+    getMultiSelectDisplay(values, existingValueElement);
+
+    let layer = createSelectLayer(element);
+    layer.html(existingValueElement.html());
+}
+
 let getSelectedCheckboxValues = function (selectElement) {
     let selected = selectElement.find(':selected');
     return {inner: selected.text(), value: selected.val()};
@@ -277,4 +331,24 @@ let setSelectedOptionValues = function (element, values) {
     });
 
     element.val(selectedValues);
+}
+
+/**
+ *  Show validation errors
+ **/
+
+$.displayValidationErrors = function (messages) {
+    let container = $('.errors');
+
+    if (!container.length) {
+        return;
+    }
+
+    container.empty();
+
+    for (let key in messages) {
+        for (let error of messages[key]) {
+            container.append(`<p>${error}</p>`);
+        }
+    }
 }

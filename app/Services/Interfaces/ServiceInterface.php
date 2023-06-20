@@ -23,6 +23,12 @@ interface ServiceInterface
     public function list(array $params = []):Collection;
 
     /**
+     * @param array $params
+     * @return Collection
+     */
+    public function listFiltered(array $params): Collection;
+
+    /**
      * @param int $id
      * @param array $data
      * @return Model|bool
@@ -31,9 +37,10 @@ interface ServiceInterface
 
     /**
      * @param int $id
+     * @param array $with
      * @return Model|null
      */
-    public function find(int $id):Model|null;
+    public function find(int $id, array $with = []): Model|null;
 
     /**
      * @param int $id
@@ -61,4 +68,10 @@ interface ServiceInterface
      * @return bool|Model
      */
     public function sync(int $modelId, array $relatedModelIds, string $relation): bool|Model;
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function pagination(array $params): array;
 }

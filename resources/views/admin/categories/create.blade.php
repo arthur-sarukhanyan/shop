@@ -8,7 +8,7 @@
         var list = @json($list);
     </script>
 
-    @vite('resources/js/categories.create.js')
+    @vite('resources/js/categories/create.js')
 @endsection
 
 @section('content')

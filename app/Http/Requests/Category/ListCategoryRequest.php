@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Category;
 
+use App\Http\Requests\ListBaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListCategoryRequest extends FormRequest
+class ListCategoryRequest extends ListBaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.

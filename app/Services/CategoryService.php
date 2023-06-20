@@ -17,6 +17,10 @@ class CategoryService extends BaseService implements ServiceInterface
         parent::__construct($modelRepository);
     }
 
+    /**
+     * @param array $data
+     * @return Model|Collection
+     */
     public function create(array $data): Model|Collection
     {
         if (isset($data['list'])) {
@@ -26,6 +30,10 @@ class CategoryService extends BaseService implements ServiceInterface
         return parent::create($data);
     }
 
+    /**
+     * @param array $data
+     * @return Collection
+     */
     public function createMultiple(array $data): Collection
     {
         $list = new Collection();
@@ -35,10 +43,5 @@ class CategoryService extends BaseService implements ServiceInterface
         }
 
         return $list;
-    }
-
-    public function listFiltered(array $params)
-    {
-        return $this->modelRepository->listFiltered($params);
     }
 }

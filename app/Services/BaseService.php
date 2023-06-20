@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\RepositoryInterface;
 use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BaseService implements ServiceInterface
 {
@@ -40,6 +41,15 @@ class BaseService implements ServiceInterface
     }
 
     /**
+     * @param array $params
+     * @return Collection
+     */
+    public function listFiltered(array $params): Collection
+    {
+        return $this->modelRepository->listFiltered($params);
+    }
+
+    /**
      * @param int $id
      * @param array $data
      * @return Model|bool
@@ -47,16 +57,25 @@ class BaseService implements ServiceInterface
     public function update(int $id, array $data): Model|bool
     {
         $updated = $this->modelRepository->update($id, $data);
+        if (!$updated) {
+            throw new ModelNotFoundException();
+        }
+
         return $updated;
     }
 
     /**
      * @param int $id
+     * @param array $with
      * @return Model|null
      */
-    public function find(int $id): Model|null
+    public function find(int $id, array $with = []): Model|null
     {
-        $item = $this->modelRepository->find($id);
+        $item = $this->modelRepository->find($id, $with);
+        if (!$item) {
+            throw new ModelNotFoundException();
+        }
+
         return $item;
     }
 
@@ -93,5 +112,14 @@ class BaseService implements ServiceInterface
     public function sync(int $modelId, array $relatedModelIds, string $relation): bool|Model
     {
         return $this->modelRepository->sync($modelId, $relatedModelIds, $relation);
+    }
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function pagination(array $params): array
+    {
+        return $this->modelRepository->getPagination($params);
     }
 }

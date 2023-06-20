@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Product;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\ListBaseRequest;
 
-class ListProductRequest extends FormRequest
+class ListProductRequest extends ListBaseRequest
 {
     /**
      * Get the validation rules that apply to the request.

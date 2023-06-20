@@ -17,10 +17,16 @@ interface RepositoryInterface
     public function all(Array $params):Collection;
 
     /**
+     * @return int
+     */
+    public function count(): int;
+
+    /**
      * @param int $id
+     * @param array $with
      * @return Model|null
      */
-    public function find(int $id):Model|null;
+    public function find(int $id, array $with = []): Model|null;
 
     /**
      * @param string $column
@@ -91,4 +97,18 @@ interface RepositoryInterface
      * @return Collection
      */
     public function listFiltered(array $params): Collection;
+
+    /**
+     * Return count based on params
+     *
+     * @param array $params
+     * @return int
+     */
+    public function countFiltered(array $params): int;
+
+    /**
+     * @param array $params
+     * @return array
+     */
+    public function getPagination(array $params): array;
 }

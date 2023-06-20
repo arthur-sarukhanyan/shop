@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Schema;
 trait ModelFilterHelper
 {
     protected array $defaultOrder = ['field' => 'id', 'type' => 'DESC'];
-    protected array $defaultPagination = ['offset' => 0, 'limit' => 10];
 
     /**
      * if dot exists, then it's related column (ex. categories.name)
@@ -225,12 +224,12 @@ trait ModelFilterHelper
         $pagination = $this->getParamsItem($params, 'pagination');
 
         if (!$pagination ||
-            !array_key_exists('offset', $params) ||
-            !array_key_exists('limit', $params) ||
-            !is_int($params['offset']) ||
-            !is_int($params['limit'])
+            !array_key_exists('offset', $pagination) ||
+            !array_key_exists('limit', $pagination) ||
+            !is_int($pagination['offset']) ||
+            !is_int($pagination['limit'])
         ) {
-            return $this->defaultPagination;
+            return ['offset' => 0, 'limit' => intval(env('PAGINATION_LIMIT', 15))];
         }
 
         return $pagination;
@@ -241,15 +240,18 @@ trait ModelFilterHelper
      *
      * @param Builder $query
      * @param array $params
+     * @param bool $onlyCount
      * @return Builder
      */
-    public function generate(Builder $query, array $params): Builder
+    public function generate(Builder $query, array $params, bool $onlyCount = false): Builder
     {
         $params = $this->updateParams($params);
-
         $query = $this->addFilters($query, $params);
-        $query = $this->addOrder($query, $params);
-        $query = $this->addPagination($query, $params);
+
+        if (!$onlyCount) {
+            $query = $this->addOrder($query, $params);
+            $query = $this->addPagination($query, $params);
+        }
 
         return $query;
     }

@@ -7,6 +7,7 @@ use App\Facades\ProductFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\ListProductRequest;
+use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use Illuminate\Contracts\View\View;
 
@@ -30,24 +31,22 @@ class ProductController extends Controller
     public function list(ListProductRequest $request): View
     {
         $params = $request->all();
+        $list = ProductFacade::list($params);
+        $pagination = ProductFacade::pagination($params);
 
-        $params = [
-            'filters' => [
-                [
-                    'field' => 'name',
-                    'value' => 'test'
-                ],
-                [
-                    'field' => 'allCategories.name',
-                    'value' => 'Comedy'
-                ]
-            ]
-        ];
+        return view('admin.products.main', ['list' => $list, 'pagination' => $pagination]);
+    }
 
-        $list = ProductFacade::listFiltered($params);
-//        $list = ProductFacade::list($params);
-
-        return view('admin.products.main', ['list' => $list]);
+    /**
+     * @param int $id
+     * @param UpdateProductRequest $request
+     * @return ProductResource
+     */
+    public function update(UpdateProductRequest $request, int $id):ProductResource
+    {
+        $data = $request->all();
+        $updated = ProductFacade::update($id, $data);
+        return new ProductResource($updated);
     }
 
     /**
@@ -57,5 +56,16 @@ class ProductController extends Controller
     {
         $listCategories = CategoryFacade::list([]);
         return view('admin.products.create', ['listCategories' => $listCategories]);
+    }
+
+    /**
+     * @param int $id
+     * @return View
+     */
+    public function viewUpdate(int $id): View
+    {
+        $listCategories = CategoryFacade::list([]);
+        $item = ProductFacade::find($id, ['categories']);
+        return view('admin.products.update', ['listCategories' => $listCategories, 'item' => $item]);
     }
 }
