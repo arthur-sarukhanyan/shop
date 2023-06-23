@@ -80,7 +80,7 @@ let prepareData = function (form, data) {
 
 let prepareSingleData = function (form, data) {
     if (form.find(':input[type="file"]').length === 0) {
-        return data;
+        return Object.assign({}, data);
     }
 
     let fileInput = form.find(':input[type="file"]');
@@ -119,7 +119,7 @@ $.sortSelectOptions = function (list, sorted = []) {
     if ($.sortedSelectOptions) {
         return $.sortedSelectOptions;
     }
-    console.log(sorted, list);
+
     if (!list.length) {
         $.sortedSelectOptions = getSelectOptions(sorted);
         return $.sortedSelectOptions;
@@ -351,4 +351,60 @@ $.displayValidationErrors = function (messages) {
             container.append(`<p>${error}</p>`);
         }
     }
+}
+
+/**
+ *  Working with url params
+ **/
+$.getUrlParams = function () {
+    let url = window.location.href;
+    if (url.indexOf('?') === -1) {
+        return [];
+    }
+
+    let queryString = url.substring(url.lastIndexOf("?") + 1);
+
+    let data = queryString.split('&').map(function(sParam) {
+        let param = sParam.split('=');
+
+        return {
+            name: param[0],
+            value: decodeURIComponent(param[1])
+        };
+    });
+
+    return data;
+}
+
+$.setUrlParams = function (params) {
+    let existingUrlParams = $.getUrlParams();
+
+    let url = window.location.href;
+    let queryString = url.split('?')[0];
+
+    let paramsString = '?';
+    let paramsArray = [];
+
+    for (let param of existingUrlParams) {
+        if (param.value.length) {
+            paramsArray[param.name] = param.value;
+        }
+    }
+
+    for (let param of params) {
+        if (param.value.length) {
+            paramsArray[param.name] = param.value;
+        } else {
+            delete paramsArray[param.name];
+        }
+    }
+
+    paramsArray = Object.assign({}, paramsArray);
+    paramsString += $.param(paramsArray);
+
+    if (paramsString === '?') {
+        paramsString = '';
+    }
+
+    return queryString + paramsString;
 }

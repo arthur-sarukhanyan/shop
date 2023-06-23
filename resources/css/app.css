@@ -39,3 +39,7 @@ a.delete{
 .preview-image{
     max-width: 140px;
 }
+
+.list-pagination{
+    cursor: pointer;
+}

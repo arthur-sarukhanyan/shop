@@ -37,6 +37,8 @@ Route::prefix('admin')->group(function () {
             Route::get('categories', 'list')->name('categories-list');
             Route::get('categories/create', 'viewCreate')->name('categories-create');
             Route::post('categories/create', 'create');
+            Route::get('categories/update/{id}', 'viewUpdate')->name('categories-update');
+            Route::post('categories/update/{id}', 'update');
         });
 
         Route::middleware(['super-admin'])->group(function () {

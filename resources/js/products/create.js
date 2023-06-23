@@ -68,7 +68,7 @@ let submitCreateForm = function () {
         contentType: false,
         data: data,
         success: function (res) {
-            window.location.href = '/admin/products';
+            // window.location.href = '/admin/products';
         },
         error: function (err) {
             let messages = JSON.parse(err.responseText);

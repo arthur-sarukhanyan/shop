@@ -54,7 +54,7 @@ abstract class AuthController extends Controller
             ]);
         } else {
             $data = $request->except(['_token']);
-            Auth::guard('web')->attempt($data);
+            Auth::guard('web')->attempt($data, true);
             return redirect('/admin');
         }
     }

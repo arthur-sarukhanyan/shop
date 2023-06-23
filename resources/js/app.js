@@ -1,6 +1,7 @@
 import './bootstrap';
 import './helper.js';
 import './form.js';
+import './filter.js';
 
 import '../css/app.css';
 import '../css/navbar.css';

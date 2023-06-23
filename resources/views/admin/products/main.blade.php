@@ -16,10 +16,12 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Image</th>
-                <th scope="col">Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Price</th>
-                <th scope="col"></th>
+                <th scope="col">Name <input type="text" class="form-control" id="filters-name" name="filters-name" data-type="LIKE"></th>
+                <th scope="col">Description <input type="text" class="form-control" id="filters-description" name="filters-description" data-type="LIKE"></th>
+                <th scope="col">Price  <input type="text" class="form-control" id="filters-price" name="filters-price"></th>
+                <th scope="col">Created </th>
+                <th scope="col">Updated </th>
+                <th scope="col"><a class="btn btn-primary list-filter">Filter</a></th>
             </tr>
             </thead>
             <tbody>
@@ -34,6 +36,8 @@
                     <td class="align-middle">{{$item->name}}</td>
                     <td class="align-middle">{{$item->description}}</td>
                     <td class="align-middle">{{$item->price}}</td>
+                    <td class="align-middle">{{$item->created_at}}</td>
+                    <td class="align-middle">{{$item->updated_at}}</td>
                     <td class="align-middle">
                         <a href="{{route('products-update', $item->id)}}" class="edit actions">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">

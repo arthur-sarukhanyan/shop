@@ -16,6 +16,30 @@ class ListBaseRequest extends BaseRequest
             unset($this['page']);
             $this->merge(['pagination' => $this->createPaginationFromPage($page)]);
         }
+
+        $data = $this->all();
+        $filters = [];
+
+        foreach ($data as $key => $value) {
+            if (str_contains($key, 'filters-')) {
+                $field = str_replace('filters-', '', $key);
+                $type = '=';
+
+                if (str_contains($value, '|')) {
+                    $parts = explode('|', $value);
+                    $value = $parts[0];
+                    $type = $parts[1];
+                }
+
+                $filter = ['field' => $field, 'value' => $value, 'type' => $type];
+                $filters[] = $filter;
+                unset($this->$key);
+            }
+        }
+
+        if (count($filters)) {
+            $this->merge(['filters' => $filters]);
+        }
     }
 
     protected function passedValidation(): void

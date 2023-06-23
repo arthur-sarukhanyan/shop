@@ -45,10 +45,10 @@ trait PaginationHelper
     public function needsFilteredCount(array $params): bool
     {
         if (array_key_exists('filters', $params) && count($params['filters'])) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**

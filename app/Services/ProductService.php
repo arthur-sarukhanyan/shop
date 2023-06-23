@@ -8,7 +8,6 @@ use App\Repositories\Interfaces\ProductInterface as RepositoryInterface;
 use App\Services\Interfaces\ProductInterface as ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProductService extends BaseService implements ServiceInterface
 {
