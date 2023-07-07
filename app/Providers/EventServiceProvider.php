@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\CategorySyncEvent;
-use App\Listeners\CategorySyncListener;
+use App\Models\Category;
+use App\Observers\CategoryObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,10 +27,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(
-            CategorySyncEvent::class,
-            [CategorySyncListener::class, 'handle']
-        );
+        Category::observe(CategoryObserver::class);
     }
 
     /**

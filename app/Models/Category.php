@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory, HasCustomRelationships;
+    use HasFactory, HasCustomRelationships, SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -28,6 +29,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'parent_id',
+        'path',
     ];
 
     /**
@@ -42,7 +44,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $with = ['parent'];
+    protected $with = ['parent', 'allProducts'];
 
     /**
      * Category self relation

@@ -43,3 +43,25 @@ a.delete{
 .list-pagination{
     cursor: pointer;
 }
+
+.option-toggle{
+    cursor: pointer;
+}
+
+.option-name{
+    cursor: pointer;
+    color: #0d6efd;
+}
+
+.option-name.st-selected{
+    font-weight: bold;
+    color: #198754;
+}
+
+.option-name:hover{
+    color: #000;
+}
+
+.list-container ul li{
+    /*padding-right: 0;*/
+}

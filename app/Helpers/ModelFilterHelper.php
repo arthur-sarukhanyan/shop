@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Schema;
 trait ModelFilterHelper
 {
     protected array $defaultOrder = ['field' => 'id', 'type' => 'DESC'];
+    protected string $defaultSeparator = '>';
 
     /**
      * if dot exists, then it's related column (ex. categories.name)
@@ -30,7 +31,7 @@ trait ModelFilterHelper
      */
     public function isFromModel(string $column): bool
     {
-        if (!str_contains($column, '.')) {
+        if (!str_contains($column, $this->defaultSeparator)) {
             return true;
         }
 
@@ -66,7 +67,7 @@ trait ModelFilterHelper
             return null;
         }
 
-        return explode('.', $column)[0];
+        return explode($this->defaultSeparator, $column)[0];
     }
 
     /**
@@ -92,14 +93,14 @@ trait ModelFilterHelper
      */
     public function replaceRelationAlias(string $className, string $column): string
     {
-        if (!str_contains($column, '.')) {
+        if (!str_contains($column, $this->defaultSeparator)) {
             return $column;
         }
 
-        $parts = explode('.', $column);
+        $parts = explode($this->defaultSeparator, $column);
 
-        if (!is_array($className::ALIAS_RELATIONS) || !in_array($parts[0], $className::ALIAS_RELATIONS)) {
-            return $column;
+        if (!defined($className . '::ALIAS_RELATIONS') || !is_array($className::ALIAS_RELATIONS) || !in_array($parts[0], $className::ALIAS_RELATIONS)) {
+            return $parts[1];
         } else {
             return BelongsToManyByPath::PATH_TABLE_ALIAS . '.' . $parts[1];
         }

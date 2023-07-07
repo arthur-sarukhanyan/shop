@@ -79,9 +79,18 @@ class BaseService implements ServiceInterface
         return $item;
     }
 
-    public function delete(int $id): bool
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $item = $this->find($id);
+        if (!$item) {
+            throw new ModelNotFoundException();
+        }
+
+        $item->delete();
     }
 
     /**

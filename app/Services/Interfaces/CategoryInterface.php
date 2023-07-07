@@ -23,8 +23,21 @@ interface CategoryInterface extends ServiceInterface
     public function createMultiple(array $data): Collection;
 
     /**
-     * @param array $params
-     * @return Collection
+     * @param int $id
+     * @param array $data
+     * @return Model|bool
      */
-    public function list(array $params = []): Collection;
+    public function update(int $id, array $data): Model|bool;
+
+    /**
+     * @param int $modelId
+     * @return void
+     */
+    public function setCategoryPath(int $modelId): void;
+
+    /**
+     * @param int $id
+     * @return string|null
+     */
+    public function generatePath(int $id): string|null;
 }

@@ -29,4 +29,13 @@ class UpdateProductRequest extends FormRequest
             'category_id.*' => 'required|numeric',
         ];
     }
+
+    /**
+     * @return void
+     */
+    public function prepareForValidation(): void
+    {
+        $categoryId = json_decode($this->category_id, true);
+        $this->merge(['category_id' => $categoryId]);
+    }
 }

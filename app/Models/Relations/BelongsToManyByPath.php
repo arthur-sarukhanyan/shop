@@ -36,7 +36,7 @@ class BelongsToManyByPath extends BelongsToMany
             $this->getQualifiedRelatedPivotKeyName()
         )->join(
             DB::raw($this->pathTable . ' ' . self::PATH_TABLE_ALIAS),
-            $this->table . '.path',
+            self::PATH_TABLE_ALIAS . '.path',
             'LIKE',
             DB::raw("CONCAT('%|', " . self::PATH_TABLE_ALIAS . ".id, '|%')")
         );

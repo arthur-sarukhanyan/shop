@@ -9,9 +9,15 @@
                 </li>
             @endif
             <li>
-                <a href="#" class="nav-link px-0 align-middle">
-                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Orders</span></a>
+                <a href="{{route('filter-groups-list')}}" class="nav-link px-0 align-middle">
+                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Filter Groups</span>
+                </a>
             </li>
+                <li>
+                    <a href="{{route('filters-list')}}" class="nav-link px-0 align-middle">
+                        <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Filters</span>
+                    </a>
+                </li>
             <li class="nav-item">
                 <a href="{{route('products-list')}}" class="nav-link align-middle px-0">
                     <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Products</span>

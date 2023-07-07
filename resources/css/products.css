@@ -2,7 +2,7 @@
     margin-bottom: 20px;
 }
 
-.product-create{
+.product-create, #update-product-form{
     padding: 15px 25px;
     border: 1px solid #ced4da;
     border-radius: 12px;

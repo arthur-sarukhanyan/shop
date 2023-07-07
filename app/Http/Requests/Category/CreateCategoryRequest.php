@@ -24,7 +24,7 @@ class CreateCategoryRequest extends FormRequest
     {
         return [
             'list.*.name' => 'required|string|max:100|min:1',
-            'list.*.parent_id' => 'numeric',
+            'list.*.parent_id' => 'numeric|nullable',
         ];
     }
 }

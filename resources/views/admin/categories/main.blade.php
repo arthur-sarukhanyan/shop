@@ -20,7 +20,7 @@
             @foreach($list as $item)
                 <tr>
                     <th scope="row">{{$item->id}}</th>
-                    <td>{{$item->name}}</td>
+                    <td><a href="{{route('products-list', ['filters-allCategories>id' => $item->id])}}">{{$item->name}}</a></td>
                     <td>{{$item->parent ? $item->parent->name : ''}}</td>
                     <td>
                         <a href="{{route('categories-update', $item->id)}}" class="edit actions">

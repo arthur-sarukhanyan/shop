@@ -30,4 +30,19 @@ class CreateProductRequest extends FormRequest
             'list.*.category_id.*' => 'required|numeric',
         ];
     }
+
+    /**
+     * @return void
+     */
+    public function prepareForValidation(): void
+    {
+        $list = $this->list;
+
+        foreach ($list as &$item) {
+            $categoryId = json_decode($item['category_id'], true);
+            $item['category_id'] = $categoryId;
+        }
+
+        $this->merge(['list' => $list]);
+    }
 }

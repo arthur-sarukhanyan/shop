@@ -14,6 +14,11 @@ class SuccessResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $data = [
+            'success' => true,
+            'message' => $this->resource,
+        ];
+
+        return $data;
     }
 }

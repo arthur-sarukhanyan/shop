@@ -1,44 +1,21 @@
+import UpdateForm from '../defaults/update.js';
+
 $(document).ready(function (){
-    let container = $('#update-category-form');
+    const submitFormButton = '#category-save';
+    const formId = '#update-category-form';
+    const itemType = 'categories';
+    let values = {
+        id: item.id,
+        name: item.name,
+        parent_id: item.parent_id,
+    };
 
-
-    addCreateForm(container);
-    initValues(item, container);
-
-    $('#category-save').on('click', function () {
-        submitUpdateForm(item.id);
-    });
-});
-
-let addCreateForm = function (container) {
+    let form = new UpdateForm(submitFormButton, formId, itemType, values);
     let fields = [
-        $.createFormElement('text', `name`, 'Name'),
-        $.createFormElement('categoriesSelect', `parent_id`, 'Parent category', list),
+        {type: 'text', key: 'name', label: 'Name'},
+        {type: 'categoriesSelect', key: 'parent_id', label: 'Parent category', data: list},
     ];
 
-    for (let field of fields) {
-        container.append(field);
-    }
-}
-
-let initValues = function (item, container) {
-    container.find('#name').val(item.name);
-    container.find('#parent_id').val(item.parent_id);
-}
-
-let submitUpdateForm = function (id) {
-    let data = $.getFormData($('#update-category-form'));
-
-    $.ajax({
-        type: 'POST',
-        url: '/admin/categories/update/' + id,
-        data: data,
-        success: function (res) {
-            window.location.href = '/admin/categories';
-        },
-        error: function (err) {
-            let messages = JSON.parse(err.responseText);
-            $.displayValidationErrors(messages.errors);
-        }
-    });
-}
+    form.setFormFields(fields);
+    form.init();
+});

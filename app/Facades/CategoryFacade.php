@@ -2,6 +2,7 @@
 
 namespace App\Facades;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static attach(int $modelId, int $relatedModelId, string $relation): bool|Model
  * @method static sync(int $modelId, array $relatedModelIds, string $relation): bool|Model
  * @method static pagination(array $params): array
+ * @method static setCategoryPath(int $modelId): void
+ * @method static generatePath(int $id): string
  *
  * @see \App\Services\CategoryService
  */

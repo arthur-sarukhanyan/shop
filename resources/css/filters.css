@@ -1,0 +1,11 @@
+#filter-create-container{
+    margin-bottom: 20px;
+}
+
+.filter-create{
+    padding: 15px 25px;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

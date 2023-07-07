@@ -8,7 +8,6 @@ use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\ListCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
-use App\Models\Category;
 use Illuminate\Contracts\View\View;
 
 class CategoryController extends Controller
@@ -25,17 +24,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param ListCategoryRequest $request
-     * @return View
-     */
-    public function list(ListCategoryRequest $request): View
-    {
-        $params = $request->all();
-        $list = CategoryFacade::listFiltered($params);
-        return view('admin.categories.main', ['list' => $list]);
-    }
-
-    /**
      * @param int $id
      * @param UpdateCategoryRequest $request
      * @return CategoryResource
@@ -45,6 +33,17 @@ class CategoryController extends Controller
         $data = $request->all();
         $updated = CategoryFacade::update($id, $data);
         return new CategoryResource($updated);
+    }
+
+    /**
+     * @param ListCategoryRequest $request
+     * @return View
+     */
+    public function viewList(ListCategoryRequest $request): View
+    {
+        $params = $request->all();
+        $list = CategoryFacade::listFiltered($params);
+        return view('admin.categories.main', ['list' => $list]);
     }
 
     /**

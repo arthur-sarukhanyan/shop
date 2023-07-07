@@ -13,7 +13,7 @@ class UserController extends Controller
      * @param ListUserRequest $request
      * @return View
      */
-    public function list(ListUserRequest $request): View
+    public function viewList(ListUserRequest $request): View
     {
         $params = $request->all();
         $list = UserFacade::list($params);

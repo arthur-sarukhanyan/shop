@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static list(array $params)
  * @method static create(array $data): Model|Collection
- * @method static setCategoryPath(int $modelId): void
  * @method static listFiltered(array $params): Collection
  * @method static update(int $id, array $data): Model|bool
  * @method static find(int $id, array $with = []): Model|null
@@ -16,15 +15,15 @@ use Illuminate\Support\Facades\Facade;
  * @method static sync(int $modelId, array $relatedModelIds, string $relation): bool|Model
  * @method static pagination(array $params): array
  *
- * @see \App\Services\ProductCategoryService
+ * @see \App\Services\FilterGroupService
  */
-class ProductCategoryFacade extends Facade
+class FilterGroupFacade extends Facade
 {
     /**
      * @return string
      */
     public static function getFacadeAccessor(): string
     {
-        return 'ProductCategoryService';
+        return 'FilterGroupService';
     }
 }

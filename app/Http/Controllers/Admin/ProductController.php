@@ -9,6 +9,7 @@ use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\ListProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\SuccessResource;
 use Illuminate\Contracts\View\View;
 
 class ProductController extends Controller
@@ -25,28 +26,38 @@ class ProductController extends Controller
     }
 
     /**
+     * @param int $id
+     * @param UpdateProductRequest $request
+     * @return ProductResource
+     */
+    public function update(UpdateProductRequest $request, int $id): ProductResource
+    {
+        $data = $request->all();
+        $updated = ProductFacade::update($id, $data);
+        return new ProductResource($updated);
+    }
+
+    /**
+     * @param int $id
+     * @return SuccessResource
+     */
+    public function delete(int $id): SuccessResource
+    {
+        ProductFacade::delete($id);
+        return new SuccessResource('Successfully deleted');
+    }
+
+    /**
      * @param ListProductRequest $request
      * @return View
      */
-    public function list(ListProductRequest $request): View
+    public function viewList(ListProductRequest $request): View
     {
         $params = $request->all();
         $list = ProductFacade::list($params);
         $pagination = ProductFacade::pagination($params);
 
         return view('admin.products.main', ['list' => $list, 'pagination' => $pagination]);
-    }
-
-    /**
-     * @param int $id
-     * @param UpdateProductRequest $request
-     * @return ProductResource
-     */
-    public function update(UpdateProductRequest $request, int $id):ProductResource
-    {
-        $data = $request->all();
-        $updated = ProductFacade::update($id, $data);
-        return new ProductResource($updated);
     }
 
     /**

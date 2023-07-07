@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Events\CategorySyncEvent;
 use App\Repositories\Interfaces\CategoryInterface as RepositoryInterface;
 use App\Services\Interfaces\CategoryInterface as ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,11 +53,38 @@ class CategoryService extends BaseService implements ServiceInterface
     public function update(int $id, array $data): Model|bool
     {
         $updated = parent::update($id, $data);
-        $item = parent::find($id, ['allProducts']);
-        foreach ($item->allProducts as $product) {
-            CategorySyncEvent::dispatch($product);
+        return $updated;
+    }
+
+    /**
+     * @param int $modelId
+     * @return void
+     */
+    public function setCategoryPath(int $modelId): void
+    {
+        $path = $this->generatePath($modelId);
+        $data = ['path' => $path];
+        $this->modelRepository->update($modelId, $data);
+    }
+
+    /**
+     * @param int $id
+     * @return string|null
+     */
+    public function generatePath(int $id): string|null
+    {
+        $category = parent::find($id);
+        if (!$category->parent_id) {
+            return null;
         }
 
-        return $updated;
+        $path = '|';
+
+        while ($category->parent_id) {
+            $path .= $category->parent_id . '|';
+            $category = parent::find($category->parent_id);
+        }
+
+        return $path;
     }
 }
