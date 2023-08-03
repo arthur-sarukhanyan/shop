@@ -25,7 +25,7 @@ class ModelRepository implements RepositoryInterface
      */
     public function all(array $params): Collection
     {
-        $collection = $this->model->all();
+        $collection = $this->model->with($params)->get();
         return $collection;
     }
 
@@ -52,12 +52,25 @@ class ModelRepository implements RepositoryInterface
     /**
      * @param string $column
      * @param string $value
+     * @param array $with
      * @return Collection
      */
-    public function findBy(string $column, string $value): Collection
+    public function findBy(string $column, string $value, array $with = []): Collection
     {
-        $collection = $this->model->where($column, $value)->get();
+        $collection = $this->model->where($column, $value)->with($with)->get();
         return $collection;
+    }
+
+    /**
+     * @param string $column
+     * @param string $value
+     * @param array $with
+     * @return Model|null
+     */
+    public function findOneBy(string $column, string $value, array $with = []): Model|null
+    {
+        $item = $this->model->where($column, $value)->with($with)->first();
+        return $item;
     }
 
     /**
@@ -169,6 +182,16 @@ class ModelRepository implements RepositoryInterface
 
         $model->$relationName()->sync($relationIds);
         return $model;
+    }
+
+    /**
+     * @param string $column
+     * @param string $value
+     * @return void
+     */
+    public function deleteBy(string $column, string $value): void
+    {
+        $this->model->where($column, $value)->delete();
     }
 
     /**

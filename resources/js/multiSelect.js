@@ -141,7 +141,7 @@ class MultiSelect {
             this.initSelectedValues();
         });
 
-        $(this.container).on('set-value', '.list-group-item', (e, values) => {
+        $(this.container).on('set-value', (e, values) => {
             values = JSON.parse(values);
 
             if (typeof values === 'number') {

@@ -44,7 +44,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $with = ['parent', 'allProducts'];
+    protected $with = ['parent'];
 
     /**
      * Category self relation
@@ -64,11 +64,4 @@ class Category extends Model
         return $this->belongsToMany(Product::class, 'products_categories');
     }
 
-    /**
-     * @return BelongsToManyByPath
-     */
-    public function allProducts(): BelongsToManyByPath
-    {
-        return $this->belongsToManyByPath(Product::class, 'products_categories', 'categories');
-    }
 }

@@ -21,7 +21,7 @@ $.getFormData = function (form) {
             continue;
         }
 
-        if(parts[0].indexOf('category_id') !== -1) {
+        if (parts[1].indexOf('%2C') !== -1) {
             parts[1] = parts[1].split('%2C').join(',');
         }
 

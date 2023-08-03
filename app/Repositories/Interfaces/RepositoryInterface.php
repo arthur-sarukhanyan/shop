@@ -31,9 +31,18 @@ interface RepositoryInterface
     /**
      * @param string $column
      * @param string $value
+     * @param array $with
      * @return Collection
      */
-    public function findBy(string $column, string $value): Collection;
+    public function findBy(string $column, string $value, array $with = []): Collection;
+
+    /**
+     * @param string $column
+     * @param string $value
+     * @param array $with
+     * @return Model|null
+     */
+    public function findOneBy(string $column, string $value, array $with = []): Model|null;
 
     /**
      * @param array $conditions
@@ -84,6 +93,13 @@ interface RepositoryInterface
      * @return Model|bool|null
      */
     public function sync(int $id, array $relationIds, string $relationName): Model|bool|null;
+
+    /**
+     * @param string $column
+     * @param string $value
+     * @return void
+     */
+    public function deleteBy(string $column, string $value): void;
 
     /**
      * @return string

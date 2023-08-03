@@ -191,6 +191,11 @@ return [
         'ImageFacade' => App\Facades\ImageFacade::class,
         'FilterFacade' => App\Facades\FilterFacade::class,
         'FilterGroupFacade' => App\Facades\FilterGroupFacade::class,
+        'BasketFacade' => App\Facades\BasketFacade::class,
+        'BasketItemFacade' => App\Facades\BasketItemFacade::class,
+        'CustomerDetailFacade' => App\Facades\CustomerDetailFacade::class,
+        'CountryFacade' => App\Facades\CountryFacade::class,
+        'CustomerFacade' => App\Facades\CustomerFacade::class,
     ])->toArray(),
 
 ];

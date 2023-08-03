@@ -22,7 +22,7 @@
             @foreach($list as $item)
                 <tr>
                     <th scope="row">{{$item->id}}</th>
-                    <td>{{$item->name}}</a></td>
+                    <td><a href="{{route('products-list', ['filters-filters>id' => $item->id])}}">{{$item->name}}</a></td>
                     <td>{{$item->attr_1}}</td>
                     <td>{{$item->attr_2}}</td>
                     <td>{{$item->filterGroup ? $item->filterGroup->name : ''}}</td>

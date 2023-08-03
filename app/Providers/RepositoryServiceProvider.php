@@ -2,11 +2,21 @@
 
 namespace App\Providers;
 
+use App\Repositories\BasketItemRepository;
+use App\Repositories\BasketRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\CountryRepository;
+use App\Repositories\CustomerDetailRepository;
+use App\Repositories\CustomerRepository;
 use App\Repositories\FilterGroupRepository;
 use App\Repositories\FilterRepository;
 use App\Repositories\ImageRepository;
+use App\Repositories\Interfaces\BasketInterface;
+use App\Repositories\Interfaces\BasketItemInterface;
 use App\Repositories\Interfaces\CategoryInterface;
+use App\Repositories\Interfaces\CountryInterface;
+use App\Repositories\Interfaces\CustomerDetailInterface;
+use App\Repositories\Interfaces\CustomerInterface;
 use App\Repositories\Interfaces\FilterGroupInterface;
 use App\Repositories\Interfaces\FilterInterface;
 use App\Repositories\Interfaces\ImageInterface;
@@ -25,6 +35,11 @@ class RepositoryServiceProvider extends ServiceProvider
         ImageInterface::class => ImageRepository::class,
         FilterInterface::class => FilterRepository::class,
         FilterGroupInterface::class => FilterGroupRepository::class,
+        BasketInterface::class => BasketRepository::class,
+        BasketItemInterface::class => BasketItemRepository::class,
+        CustomerDetailInterface::class => CustomerDetailRepository::class,
+        CountryInterface::class => CountryRepository::class,
+        CustomerInterface::class => CustomerRepository::class,
     ];
 
     /**

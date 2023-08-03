@@ -36,25 +36,13 @@ class BelongsToManyByPath extends BelongsToMany
             $this->getQualifiedRelatedPivotKeyName()
         )->join(
             DB::raw($this->pathTable . ' ' . self::PATH_TABLE_ALIAS),
-            self::PATH_TABLE_ALIAS . '.path',
+            $this->pathTable . '.path',
             'LIKE',
             DB::raw("CONCAT('%|', " . self::PATH_TABLE_ALIAS . ".id, '|%')")
         );
 
         return $this;
     }
-
-    public function addEagerConstraints(array $models)
-    {
-        $whereIn = $this->whereInMethod($this->parent, $this->parentKey);
-
-        $this->whereInEager(
-            $whereIn,
-            self::PATH_TABLE_ALIAS . '.' . $this->parentKey,
-            $this->getKeys($models, $this->parentKey)
-        );
-    }
-
 
     public function match(array $models, Collection $results, $relation)
     {

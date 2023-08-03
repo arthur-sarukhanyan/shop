@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Facades\CategoryFacade;
+use App\Facades\FilterGroupFacade;
 use App\Facades\ProductFacade;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
@@ -76,7 +77,14 @@ class ProductController extends Controller
     public function viewUpdate(int $id): View
     {
         $listCategories = CategoryFacade::list([]);
-        $item = ProductFacade::find($id, ['categories']);
-        return view('admin.products.update', ['listCategories' => $listCategories, 'item' => $item]);
+        $listFilterGroups = FilterGroupFacade::list(['filters']);
+        $item = ProductFacade::find($id, ['categories', 'filters']);
+
+        return view('admin.products.update',
+            [
+                'listCategories' => $listCategories,
+                'listFilterGroups' => $listFilterGroups,
+                'item' => $item
+            ]);
     }
 }

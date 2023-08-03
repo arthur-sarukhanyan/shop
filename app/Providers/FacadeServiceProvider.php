@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Services\BasketItemService;
+use App\Services\BasketService;
 use App\Services\CategoryService;
+use App\Services\CountryService;
+use App\Services\CustomerDetailService;
+use App\Services\CustomerService;
 use App\Services\FilterGroupService;
 use App\Services\FilterService;
 use App\Services\ImageService;
@@ -41,6 +46,26 @@ class FacadeServiceProvider extends ServiceProvider
 
         $this->app->bind('FilterGroupService', function (Application $app) {
             return app()->make(FilterGroupService::class);
+        });
+
+        $this->app->bind('BasketService', function (Application $app) {
+            return app()->make(BasketService::class);
+        });
+
+        $this->app->bind('BasketItemService', function (Application $app) {
+            return app()->make(BasketItemService::class);
+        });
+
+        $this->app->bind('CustomerDetailService', function (Application $app) {
+            return app()->make(CustomerDetailService::class);
+        });
+
+        $this->app->bind('CountryService', function (Application $app) {
+            return app()->make(CountryService::class);
+        });
+
+        $this->app->bind('CustomerService', function (Application $app) {
+            return app()->make(CustomerService::class);
         });
     }
 

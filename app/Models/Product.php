@@ -53,6 +53,11 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'products_categories');
     }
 
+    public function filters(): BelongsToMany
+    {
+        return $this->belongsToMany(Filter::class, 'filter_products');
+    }
+
     public function allCategories(): BelongsToManyByPath
     {
         return $this->belongsToManyByPath(Category::class, 'products_categories', $this->pathTable);

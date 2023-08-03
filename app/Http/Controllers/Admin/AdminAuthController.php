@@ -25,4 +25,12 @@ class AdminAuthController extends AuthController
     {
         return User::where('email', $email)->first();
     }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticateModel(): string
+    {
+        return User::class;
+    }
 }

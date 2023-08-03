@@ -5,7 +5,8 @@
 @section('extra-scripts')
     <script>
         var page = 'products-update';
-        var list = @json($listCategories);
+        var listCategories = @json($listCategories);
+        var listFilterGroups = @json($listFilterGroups);
         var item = @json($item);
     </script>
 

@@ -27,6 +27,7 @@ class UpdateProductRequest extends FormRequest
             'price' => 'numeric|max:999999|min:0',
             'image' => 'file|mimes:jpeg,png,jpg,gif,webp',
             'category_id.*' => 'required|numeric',
+            'filter_id.*' => 'numeric',
         ];
     }
 
@@ -37,5 +38,8 @@ class UpdateProductRequest extends FormRequest
     {
         $categoryId = json_decode($this->category_id, true);
         $this->merge(['category_id' => $categoryId]);
+
+        $filterId = json_decode($this->filter_id, true);
+        $this->merge(['filter_id' => $filterId]);
     }
 }

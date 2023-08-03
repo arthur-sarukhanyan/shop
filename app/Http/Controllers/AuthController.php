@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ abstract class AuthController extends Controller
         $authEntity = $this->getAuthEntity($request->email);
         $isAjaxRequest = $request->expectsJson();
 
-        if (! $authEntity || ! Hash::check($request->password, $authEntity->password)) {
+        if (!$authEntity || ! Hash::check($request->password, $authEntity->password)) {
             if ($isAjaxRequest) {
                 return response()->json([
                     'email' => ['The provided credentials are incorrect.'],
@@ -79,8 +80,40 @@ abstract class AuthController extends Controller
     }
 
     /**
+     * @param RegisterRequest $request
+     * @return JsonResponse|RedirectResponse
+     */
+    public function register(RegisterRequest $request): JsonResponse|RedirectResponse
+    {
+        $credentials = $request->validated();
+        $credentials['password'] = Hash::make($credentials['password']);
+        $authenticateModel = $this->getAuthenticateModel();
+        $authEntity = $authenticateModel::create($credentials);
+        $isAjaxRequest = $request->expectsJson();
+
+        if ($isAjaxRequest) {
+            $device_name = $request->header('User-Agent');
+            $token = $authEntity->createToken($device_name)->plainTextToken;
+
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+            ]);
+        } else {
+            $data = $request->except(['name']);
+            Auth::guard('web')->attempt($data, true);
+            return redirect('/admin');
+        }
+    }
+
+    /**
      * @param string $email
      * @return Authenticatable|null
      */
     abstract public function getAuthEntity(string $email): Authenticatable|null;
+
+    /**
+     * @return string
+     */
+    abstract public function getAuthenticateModel(): string;
 }

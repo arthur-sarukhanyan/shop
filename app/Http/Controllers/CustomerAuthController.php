@@ -15,4 +15,12 @@ class CustomerAuthController extends AuthController
     {
         return Customer::where('email', $email)->first();
     }
+
+    /**
+     * @return string
+     */
+    public function getAuthenticateModel(): string
+    {
+        return Customer::class;
+    }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('price');
             $table->float('original_price');
             $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
             $table->softDeletes();
@@ -29,6 +30,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('orders')
                 ->onDelete('cascade');
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products');
         });
     }
 

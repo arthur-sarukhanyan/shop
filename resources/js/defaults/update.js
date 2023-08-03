@@ -6,6 +6,7 @@ class UpdateForm {
     values = [];
     formFields = [];
     id;
+    select2Fields = ['filter_id'];
 
     constructor(submitFormButton, formId, itemType, values, multiField = null) {
         this.submitFormButton = submitFormButton;
@@ -15,7 +16,6 @@ class UpdateForm {
         this.id = values.id;
         delete values.id;
         this.values = values;
-
     }
 
     init() {
@@ -44,6 +44,7 @@ class UpdateForm {
     }
 
     submitCreateForm() {
+        this.stringifySelect2Values();
         let data = $.getFormData($(this.formId));
         let url = '/admin/' + this.itemType + '/update/' + this.id;
         let redirectUrl = '/admin/' + this.itemType;
@@ -62,7 +63,7 @@ class UpdateForm {
             contentType: contentType,
             processData: processData,
             success: function (res) {
-                // window.location.href = redirectUrl;
+                window.location.href = redirectUrl;
             },
             error: function (err) {
                 let messages = JSON.parse(err.responseText);
@@ -107,13 +108,29 @@ class UpdateForm {
                 container.find(key).attr('src', this.values[key]);
             } else if (key === 'parent_id') {
                 $('.list-group-item').trigger('set-value', JSON.stringify(this.values[key]));
+            } else if (this.select2Fields.includes(key)) {
+                $('#' + key).val(this.values[key]).trigger('change');
             } else {
                 container.find('#' + key).val(this.values[key]);
             }
         }
 
         if (this.multiField) {
-            $('.list-group-item').trigger('set-value', JSON.stringify(this.values[multiKey]));
+            $(this.formId).trigger('set-value', JSON.stringify(this.values[multiKey]));
+        }
+    }
+
+    stringifySelect2Values() {
+        for (let item of this.select2Fields) {
+            let el = $('#' + item);
+            if (el.length) {
+                let val = JSON.stringify(el.val());
+                el.parent().find('.select2').remove();
+                el.remove();
+                let tmpInput = `<input type="hidden" id="${item}" name="${item}">`;
+                $(this.formId).append(tmpInput);
+                $('#' + item).val(val);
+            }
         }
     }
 }
