@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Facades\UserFacade;
 use App\Http\Controllers\AuthController;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +24,7 @@ class AdminAuthController extends AuthController
      */
     public function getAuthEntity($email): Authenticatable|null
     {
-        return User::where('email', $email)->first();
+        return UserFacade::findByEmail($email);
     }
 
     /**

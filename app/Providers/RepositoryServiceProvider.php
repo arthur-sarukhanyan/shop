@@ -20,8 +20,12 @@ use App\Repositories\Interfaces\CustomerInterface;
 use App\Repositories\Interfaces\FilterGroupInterface;
 use App\Repositories\Interfaces\FilterInterface;
 use App\Repositories\Interfaces\ImageInterface;
+use App\Repositories\Interfaces\OrderDetailInterface;
+use App\Repositories\Interfaces\OrderInterface;
 use App\Repositories\Interfaces\ProductInterface;
 use App\Repositories\Interfaces\UserInterface;
+use App\Repositories\OrderDetailRepository;
+use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -40,6 +44,8 @@ class RepositoryServiceProvider extends ServiceProvider
         CustomerDetailInterface::class => CustomerDetailRepository::class,
         CountryInterface::class => CountryRepository::class,
         CustomerInterface::class => CustomerRepository::class,
+        OrderInterface::class => OrderRepository::class,
+        OrderDetailInterface::class => OrderDetailRepository::class,
     ];
 
     /**

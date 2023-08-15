@@ -3,10 +3,12 @@
 namespace App\Http\Resources\Filter;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ListFilterResource extends JsonResource
+class ListFilterResource extends ResourceCollection
 {
+    public $collects = FilterResource::class;
+
     /**
      * Transform the resource into an array.
      *

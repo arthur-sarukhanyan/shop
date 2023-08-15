@@ -8,19 +8,20 @@ use App\Http\Requests\Category\CreateCategoryRequest;
 use App\Http\Requests\Category\ListCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\Category\ListCategoryResource;
 use Illuminate\Contracts\View\View;
 
 class CategoryController extends Controller
 {
     /**
      * @param CreateCategoryRequest $request
-     * @return CategoryResource
+     * @return ListCategoryResource
      */
-    public function create(CreateCategoryRequest $request):CategoryResource
+    public function create(CreateCategoryRequest $request): ListCategoryResource
     {
         $data = $request->all();
         $created = CategoryFacade::create($data);
-        return new CategoryResource($created);
+        return new ListCategoryResource($created);
     }
 
     /**

@@ -8,20 +8,20 @@ use App\Http\Requests\FilterGroup\CreateFilterGroupRequest;
 use App\Http\Requests\FilterGroup\ListFilterGroupRequest;
 use App\Http\Requests\FilterGroup\UpdateFilterGroupRequest;
 use App\Http\Resources\FilterGroup\FilterGroupResource;
+use App\Http\Resources\FilterGroup\ListFilterGroupResource;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
 
 class FilterGroupController extends Controller
 {
     /**
      * @param CreateFilterGroupRequest $request
-     * @return FilterGroupResource
+     * @return ListFilterGroupResource
      */
-    public function create(CreateFilterGroupRequest $request):FilterGroupResource
+    public function create(CreateFilterGroupRequest $request): ListFilterGroupResource
     {
         $data = $request->all();
         $created = FilterGroupFacade::create($data);
-        return new FilterGroupResource($created);
+        return new ListFilterGroupResource($created);
     }
 
     /**

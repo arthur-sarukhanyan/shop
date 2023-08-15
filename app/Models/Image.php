@@ -49,7 +49,7 @@ class Image extends Model
     protected function path(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => '/' . env('IMAGE_STORAGE') . $value,
+            get: fn (string $value) => '/' . env('IMAGE_STORAGE', 'storage') . $value,
         );
     }
 }

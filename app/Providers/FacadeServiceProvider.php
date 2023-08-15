@@ -11,6 +11,8 @@ use App\Services\CustomerService;
 use App\Services\FilterGroupService;
 use App\Services\FilterService;
 use App\Services\ImageService;
+use App\Services\OrderDetailService;
+use App\Services\OrderService;
 use App\Services\ProductCategoryService;
 use App\Services\ProductService;
 use App\Services\UserService;
@@ -66,6 +68,14 @@ class FacadeServiceProvider extends ServiceProvider
 
         $this->app->bind('CustomerService', function (Application $app) {
             return app()->make(CustomerService::class);
+        });
+
+        $this->app->bind('OrderService', function (Application $app) {
+            return app()->make(OrderService::class);
+        });
+
+        $this->app->bind('OrderDetailService', function (Application $app) {
+            return app()->make(OrderDetailService::class);
         });
     }
 

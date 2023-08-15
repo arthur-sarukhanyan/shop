@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Facades\CategoryFacade;
 use App\Http\Resources\Category\ListCategoryResource;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CategoryController extends Controller
 {
     /**
-     * @return AnonymousResourceCollection
+     * @return ListCategoryResource
      */
-    public function list(): AnonymousResourceCollection
+    public function list(): ListCategoryResource
     {
         $list = CategoryFacade::list([]);
-        return ListCategoryResource::collection($list);
+        return new ListCategoryResource($list);
     }
 }

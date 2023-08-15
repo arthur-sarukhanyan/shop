@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\ListProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Resources\Product\ListProductResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\SuccessResource;
 use Illuminate\Contracts\View\View;
@@ -17,13 +18,13 @@ class ProductController extends Controller
 {
     /**
      * @param CreateProductRequest $request
-     * @return ProductResource
+     * @return ListProductResource
      */
-    public function create(CreateProductRequest $request):ProductResource
+    public function create(CreateProductRequest $request): ListProductResource
     {
         $data = $request->all();
         $created = ProductFacade::create($data);
-        return new ProductResource($created);
+        return new ListProductResource($created);
     }
 
     /**

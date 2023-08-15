@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Admin\Products;
 
+use App\Facades\CategoryFacade;
 use App\Models\Product;
 use Tests\TestCase;
 
@@ -41,14 +42,17 @@ class ProductsRoutesTest extends TestCase
 
     public function testCreateAuthenticated(): void
     {
+        $category = CategoryFacade::findByName('base');
+
         $data = [
             'name' => 'New Test Product',
             'description' => 'Test description',
             'price' => 21,
+            'category_id' => json_encode([$category->id]),
         ];
 
-        $response = $this->actingAs($this->admin)->post('/admin/products/create', $data);
-        $response->assertStatus(201);
+        $response = $this->actingAs($this->admin)->post('/admin/products/create', ['list' => [$data]]);
+        $response->assertStatus(200);
     }
 
     public function testUpdateViewUnauthenticated(): void

@@ -66,5 +66,7 @@ Route::prefix('admin')->group(function () {
                 Route::get('users-create', 'create')->name('users-create');
             });
         });
+
+        Route::get('logout', [AdminAuthController::class, 'logout'])->name('admin-logout');
     });
 });

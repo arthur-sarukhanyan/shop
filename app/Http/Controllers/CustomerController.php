@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Facades\CustomerDetailFacade;
 use App\Facades\CustomerFacade;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Http\Resources\Customer\CustomerResource;
-use App\Models\Customer;
 
 class CustomerController extends Controller
 {

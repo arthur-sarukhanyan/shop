@@ -1,6 +1,6 @@
 @extends('admin/layout')
 
-@section('title', 'Create category')
+@section('title', 'Edit category')
 
 @section('extra-scripts')
     <script>

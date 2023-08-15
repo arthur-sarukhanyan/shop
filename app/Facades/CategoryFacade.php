@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static pagination(array $params): array
  * @method static setCategoryPath(int $modelId): void
  * @method static generatePath(int $id): string
+ * @method static findByName(string $name, array $with = []): Model
  *
  * @see \App\Services\CategoryService
  */

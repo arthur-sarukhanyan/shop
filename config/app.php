@@ -196,6 +196,8 @@ return [
         'CustomerDetailFacade' => App\Facades\CustomerDetailFacade::class,
         'CountryFacade' => App\Facades\CountryFacade::class,
         'CustomerFacade' => App\Facades\CustomerFacade::class,
+        'OrderFacade' => App\Facades\OrderFacade::class,
+        'OrderDetailFacade' => App\Facades\OrderDetailFacade::class,
     ])->toArray(),
 
 ];

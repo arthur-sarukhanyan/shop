@@ -9,19 +9,20 @@ use App\Http\Requests\Filter\CreateFilterRequest;
 use App\Http\Requests\Filter\ListFilterRequest;
 use App\Http\Requests\Filter\UpdateFilterRequest;
 use App\Http\Resources\Filter\FilterResource;
+use App\Http\Resources\Filter\ListFilterResource;
 use Illuminate\Contracts\View\View;
 
 class FilterController extends Controller
 {
     /**
      * @param CreateFilterRequest $request
-     * @return FilterResource
+     * @return ListFilterResource
      */
-    public function create(CreateFilterRequest $request):FilterResource
+    public function create(CreateFilterRequest $request): ListFilterResource
     {
         $data = $request->all();
         $created = FilterFacade::create($data);
-        return new FilterResource($created);
+        return new ListFilterResource($created);
     }
 
     /**

@@ -3,10 +3,12 @@
 namespace App\Http\Resources\Country;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ListCountryResource extends JsonResource
+class ListCountryResource extends ResourceCollection
 {
+    public $collects = CountryResource::class;
+
     /**
      * Transform the resource into an array.
      *

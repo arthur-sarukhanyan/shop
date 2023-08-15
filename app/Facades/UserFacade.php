@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static attach(int $modelId, int $relatedModelId, string $relation): bool|Model
  * @method static sync(int $modelId, array $relatedModelIds, string $relation): bool|Model
  * @method static pagination(array $params): array
+ * @method static findByEmail(string $email): Model
  *
  * @see \App\Services\UserService
  */

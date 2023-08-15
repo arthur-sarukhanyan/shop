@@ -6,6 +6,7 @@ use App\Repositories\Interfaces\CategoryInterface as RepositoryInterface;
 use App\Services\Interfaces\CategoryInterface as ServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryService extends BaseService implements ServiceInterface
 {
@@ -86,5 +87,20 @@ class CategoryService extends BaseService implements ServiceInterface
         }
 
         return $path;
+    }
+
+    /**
+     * @param string $name
+     * @param array $with
+     * @return Model
+     */
+    public function findByName(string $name, array $with = []): Model
+    {
+        $category = $this->modelRepository->findOneBy('name', $name, $with);
+        if (!$category) {
+            throw new ModelNotFoundException();
+        }
+
+        return $category;
     }
 }

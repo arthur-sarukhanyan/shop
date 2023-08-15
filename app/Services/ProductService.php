@@ -45,7 +45,9 @@ class ProductService extends BaseService implements ServiceInterface
                 parent::sync($created->id, $item['category_id'], 'categories');
             }
 
-            ImageFacade::attachImage($created->id, $this->getType(), $item['image']);
+            if (isset($item['image'])) {
+                ImageFacade::attachImage($created->id, $this->getType(), $item['image']);
+            }
             $list->push($created);
         }
 

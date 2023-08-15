@@ -36,9 +36,12 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(BasketController::class)->group(function () {
         Route::get('basket', 'one');
-        Route::post('basket', 'update');
+        Route::put('basket', 'update');
     });
+});
 
+Route::controller(BasketController::class)->group(function () {
+    Route::post('basket', 'submit');
 });
 
 Route::controller(ProductController::class)->group(function () {

@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\Concerns\HasParameters;
 use Symfony\Component\Console\Input\InputOption;
 
 class MakeRepository extends Command

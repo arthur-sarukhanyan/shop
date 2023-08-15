@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\FilterGroup;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFilterGroupRequest extends FormRequest
@@ -17,7 +18,7 @@ class UpdateFilterGroupRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {

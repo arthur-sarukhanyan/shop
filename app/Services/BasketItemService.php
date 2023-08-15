@@ -35,15 +35,7 @@ class BasketItemService extends BaseService implements ServiceInterface
             }
 
             foreach ($data['items'] as $item) {
-                $product = ProductFacade::find($item['id']);
-                $item['customer_id'] = $customerId;
-                $item['name'] = $product->name;
-                $item['description'] = $product->description;
-                $item['basket_id'] = $basket->id;
-                $item['price'] = $item['quantity'] * $product->price;
-                $item['original_price'] = $item['price'];
-                $item['product_id'] = $item['id'];
-                unset($item['id']);
+                $item = $this->modifyItem($item, $customerId, $basket->id);
                 parent::create($item);
             }
         } catch (\Exception $exception) {
@@ -51,5 +43,27 @@ class BasketItemService extends BaseService implements ServiceInterface
         } finally {
             DB::commit();
         }
+    }
+
+    /**
+     * @param array $data
+     * @param int $customerId
+     * @param int $basketId
+     * @return array
+     */
+    public function modifyItem(array $data, int $customerId, int $basketId): array
+    {
+        $product = ProductFacade::find($data['id']);
+
+        $data['customer_id'] = $customerId;
+        $data['name'] = $product->name;
+        $data['description'] = $product->description;
+        $data['basket_id'] = $basketId;
+        $data['price'] = $data['quantity'] * $product->price;
+        $data['original_price'] = $product->price;
+        $data['product_id'] = $data['id'];
+        unset($data['id']);
+
+        return  $data;
     }
 }

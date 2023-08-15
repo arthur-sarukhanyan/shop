@@ -51,6 +51,7 @@ class ProductsViewsTest extends TestCase
         $view = $this->actingAs($this->admin)
             ->view('admin.products.update', [
                 'listCategories' => [],
+                'listFilterGroups' => [],
                 'item' => $product
             ]);
 

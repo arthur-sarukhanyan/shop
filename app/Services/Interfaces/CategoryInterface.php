@@ -40,4 +40,11 @@ interface CategoryInterface extends ServiceInterface
      * @return string|null
      */
     public function generatePath(int $id): string|null;
+
+    /**
+     * @param string $name
+     * @param array $with
+     * @return Model
+     */
+    public function findByName(string $name, array $with = []): Model;
 }
